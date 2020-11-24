@@ -20,19 +20,19 @@ import com.wf.training.spring.maven.web.dto.Users;
 @Controller
 @RequestMapping("/investor")
 public class InvestorController {
-		@RequestMapping("/home") // /student/home
+		@RequestMapping("/home")
 		public String home() {
 			return "investor";
 		}
 		
-		@RequestMapping("/earningtrend") // /student/home
+		@RequestMapping("/earningtrend")
 		public String earningTrend(Model model) {
 			System.out.println("earningtrend");
 			return "investorearningtrend";
 		}
 
 		
-		@RequestMapping("/searchcompanyui") // /student/home
+		@RequestMapping("/searchcompanyui")
 		public String searchCompanyUI(@ModelAttribute CompanyDetails companies, Model model ) throws ClassNotFoundException, SQLException {
 			System.out.println("searchCompanyui");
 			List<CompanyDetails> companylist = new ArrayList<CompanyDetails>();
@@ -48,14 +48,14 @@ public class InvestorController {
 		}
 
 		
-		/*@RequestMapping("/searchcompany") // /student/home
+		/*@RequestMapping("/searchcompany") 
 		public String searchCompany(Model model) {
 			System.out.println("searchCompany");
 			return "redirect:/investor/home";
 		}*/
 
 		
-		@RequestMapping("/comparecompanyui") // /student/home
+		@RequestMapping("/comparecompanyui")
 		public String compareCompanyUI(Model model) {
 			System.out.println("compareCompanyui");
 			List<CompanyDetails> companylist = new ArrayList<CompanyDetails>();
@@ -71,14 +71,14 @@ public class InvestorController {
 		}
 
 		
-		@RequestMapping("/stockexchange") // /student/home
+		@RequestMapping("/stockexchange")
 		public String stockExchange(Model model) {
 			System.out.println("stockExchange");
 			return "stockexchange";
 		}
 
 		
-		@RequestMapping("/portfolioupdateui") // /student/home
+		@RequestMapping("/portfolioupdateui")
 		public String portfolioUpdateUI(Model model) throws ClassNotFoundException, SQLException {
 			System.out.println("portfolioUpdateui");
 			/*Users user = new Users();
@@ -89,7 +89,7 @@ public class InvestorController {
 		}
 
 		
-		@RequestMapping("/portfolioupdate") // /student/home
+		@RequestMapping("/portfolioupdate")
 		public String portfolioUpdate(@Valid @ModelAttribute("portfolio") PortfolioDetails portfolio, BindingResult result) {
 			System.out.println("portfolioUpdate");
 			if(result.hasErrors()) {
@@ -99,19 +99,19 @@ public class InvestorController {
 		}
 
 		
-		@RequestMapping("/generateportfolioreport") // /student/home
+		@RequestMapping("/generateportfolioreport")
 		public String generatePortfolioReport(Model model) {
 			System.out.println("generatePortfolioReport");
 			return "portfolioreport";
 		}
 		
-		@RequestMapping("/sendportfolioreport") // /student/home
+		@RequestMapping("/sendportfolioreport")
 		public String sendPortfolioReport(Model model) {
 			System.out.println("send portfolioreport");
 			return "portfolioreportoutput";
 		}
 		
-		@RequestMapping("/logout") // /student/home
+		@RequestMapping("/logout")
 		public String logout() {
 			System.out.println("logged out");
 			return "redirect:/login";
@@ -119,7 +119,6 @@ public class InvestorController {
 		
 		@RequestMapping("*")
 		public String fallback() {
-			// return "employee-error";
-			return "redirect:/investor/home";// ~sendRedirect()
+			return "redirect:/investor/home";
 		}
 }

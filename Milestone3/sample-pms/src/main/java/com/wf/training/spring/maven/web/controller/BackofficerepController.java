@@ -20,12 +20,12 @@ import com.wf.training.spring.maven.web.dto.Users;
 @RequestMapping("/backofficerep")
 public class BackofficerepController {
 	
-		@RequestMapping("/home") // /student/home
+		@RequestMapping("/home")
 		public String home() {
 			return "backofficerep";
 		}
 		
-		@RequestMapping("/addnewcompanyui") // /student/home
+		@RequestMapping("/addnewcompanyui")
 		public String addNewCompanyUI(Model model) {
 			System.out.println("New company");
 			CompanyDetails company = new CompanyDetails();
@@ -33,7 +33,7 @@ public class BackofficerepController {
 			return "new-company";
 		}
 		
-		@RequestMapping("/addnewcompany") // /student/home
+		@RequestMapping("/addnewcompany")
 		public String addNewCompany(@Valid @ModelAttribute("company") CompanyDetails company, BindingResult result) throws ClassNotFoundException, SQLException {
 			System.out.println("New company");
 			if(result.hasErrors()) {
@@ -43,7 +43,7 @@ public class BackofficerepController {
 			return "redirect:/backofficerep/home";
 		}
 		
-		@RequestMapping("/addstockpricesui") // /student/home
+		@RequestMapping("/addstockpricesui")
 		public String addStockPricesUI(Model model) {
 			System.out.println("Stock prices added");
 			StockPrices stockprices = new StockPrices();
@@ -51,7 +51,7 @@ public class BackofficerepController {
 			return "stockprices";
 		}
 		
-		@RequestMapping("/addstockprices") // /student/home
+		@RequestMapping("/addstockprices")
 		public String addStockPrices(@Valid @ModelAttribute("stockprices") StockPrices stockprices, BindingResult result) throws ClassNotFoundException, SQLException {
 			System.out.println("Stock prices added");
 			if(result.hasErrors()) {
@@ -61,7 +61,7 @@ public class BackofficerepController {
 			return "redirect:/backofficerep/home";
 		}
 		
-		@RequestMapping("/addcommodityui") // /student/home
+		@RequestMapping("/addcommodityui")
 		public String addCommodityUI(Model model) {
 			System.out.println("Commodity added");
 			CommodityDetails commodity = new CommodityDetails();
@@ -69,7 +69,7 @@ public class BackofficerepController {
 			return "new-commodity";
 		}
 		
-		@RequestMapping("/addcommodity") // /student/home
+		@RequestMapping("/addcommodity")
 		public String addCommodity(@Valid @ModelAttribute("commodity") CommodityDetails commodity, BindingResult result){
 			System.out.println("Commodity added");
 			if(result.hasErrors()) {
@@ -79,19 +79,19 @@ public class BackofficerepController {
 			return "redirect:/backofficerep/home";
 		}
 		
-		@RequestMapping("/generatecommissionreport") // /student/home
+		@RequestMapping("/generatecommissionreport")
 		public String generateCommissionReport(Model model) {
 			System.out.println("Commission report");
 			return "commissionreport";
 		}
 		
-		@RequestMapping("/sendcommissionreport") // /student/home
+		@RequestMapping("/sendcommissionreport")
 		public String sendCommissionReport() {
 			System.out.println("send Commission report");
 			return "commissionreportoutput";
 		}
 		
-		@RequestMapping("/logout") // /student/home
+		@RequestMapping("/logout")
 		public String logout() {
 			System.out.println("logged out");
 			return "redirect:/login";
@@ -99,7 +99,6 @@ public class BackofficerepController {
 		
 		@RequestMapping("*")
 		public String fallback() {
-			// return "employee-error";
-			return "redirect:/backofficerep/home";// ~sendRedirect()
+			return "redirect:/backofficerep/home";
 		}
 }

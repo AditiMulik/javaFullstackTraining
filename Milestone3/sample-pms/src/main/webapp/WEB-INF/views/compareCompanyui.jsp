@@ -5,10 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<jsp:include page="bootstraplink.jsp"/>
 <title>Insert title here</title>
 </head>
 <body>
@@ -19,7 +16,7 @@
 	<h1>Select companies to compare</h1>
 	<div>
 	   <div class="input-group">
-	    	<label for="company1">Enter company code to search</label>
+	    	<label for="company1">Enter first company code to search</label>
 	      <input list="list1" name="companies" id="company1">
 			  <datalist id="list1">
 			  	<c:forEach items="${companylist}" var="companies" varStatus="count">
@@ -28,7 +25,7 @@
 			  </datalist>
 	    </div>
 		<div class="input-group">
-	    	<label for="company2">Enter company code to search</label>
+	    	<label for="company2">Enter second company code to search</label>
 	      <input list="list2" name="companies" id="company2">
 			  <datalist id="list2">
 			  	<c:forEach items="${companylist}" var="companies" varStatus="count">
@@ -48,6 +45,7 @@
 	</div>
 <jsp:include page="footer.jsp"/>
 </body>
+<jsp:include page="bootstrapscripts.jsp"/>
 
 <script>
 function displayresult(){

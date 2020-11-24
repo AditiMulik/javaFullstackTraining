@@ -17,20 +17,18 @@ import com.wf.training.spring.maven.web.dto.Users;
 @RequestMapping("/admin")
 public class AdminController {
 	
-		@RequestMapping("/home") // /student/home
+		@RequestMapping("/home") 
 		public String home(@ModelAttribute("user") Users user) {
 			return "admin";
 		}
 		
-		@RequestMapping("/addnewrepui") // /student/home
+		@RequestMapping("/addnewrepui")
 		public String addNewRepUI(@ModelAttribute("user") Users user) {
 			System.out.println("New rep");
-			//Users user = new Users();
-			//model.addAttribute("user",user);
 			return "new-backofficerep";
 		}
 		
-		@RequestMapping("/addnewrep") // /student/home
+		@RequestMapping("/addnewrep") 
 		public String addNewRep(@Valid @ModelAttribute("user") Users user, BindingResult result){
 			System.out.println("New rep "+"| "+user.getUsername()+" | "+user.getPassword());
 			if(result.hasErrors()) {
@@ -40,7 +38,7 @@ public class AdminController {
 			return "redirect:/admin/home";
 		}
 		
-		@RequestMapping("/logout") // /student/home
+		@RequestMapping("/logout")
 		public String logout() {
 			System.out.println("logged out");
 			return "redirect:/login";
@@ -48,7 +46,6 @@ public class AdminController {
 		
 		@RequestMapping("*")
 		public String fallback(@ModelAttribute("user") Users user) {
-			// return "employee-error";
-			return "redirect:/admin/home";// ~sendRedirect()
+			return "redirect:/admin/home";
 		}
 }

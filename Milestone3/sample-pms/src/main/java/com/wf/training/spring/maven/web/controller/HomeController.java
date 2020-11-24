@@ -16,10 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.wf.training.spring.maven.web.dto.Users;
 
-// Bean will be created
-// registered with HandlerMapper
-
-// shall contain processing logic
 @Controller
 public class HomeController {
 
@@ -33,7 +29,6 @@ public class HomeController {
 	@PostMapping("/login")
 	public String saveProfile(@Valid @ModelAttribute("user") Users user, BindingResult result){
 		if(result.hasErrors()) {
-			// revert back the entry form
 			System.out.println("POST DATA : " + user.getUsername() + " | " + user.getPassword()+"|"+result);
 			return "index";
 		}
@@ -79,8 +74,7 @@ public class HomeController {
 	
 	@RequestMapping("*")
 	public String fallback() {
-		// return "employee-error";
-		return "redirect:/";// ~sendRedirect()
+		return "redirect:/";
 	}
 	
 }
