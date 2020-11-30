@@ -43,6 +43,20 @@
     <div class="col-sm-8 text-left"> 
       <h1>Stock Exchange</h1>
       <hr>
+      <!--  <div class="card">
+		  <div class="card-header">
+		    Happy Trading!
+		  </div>
+		  <div class="card-body">
+		    <h5 class="card-title">Selected company to trade   : ${companydetail.code}</h5>
+		    <p class="card-text">
+		    	Company available sharecount: ${companydetail.sharecount}
+		    	Company share price         : ${companydetail.shareprice}
+		    </p>
+		    <button class="btn btn-default" type="submit" onclick="displayBuy()">Buy stocks</button>
+	      	<button class="btn btn-default" type="submit" onclick="displaySell()">Sell stocks</button>
+		  </div>
+		</div>-->
       <div>
       	<h2>Selected company to trade   : ${companydetail.code}</h2>
       	<h3>Company available sharecount: ${companydetail.sharecount}</h3>

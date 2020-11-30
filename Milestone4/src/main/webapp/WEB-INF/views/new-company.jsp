@@ -39,7 +39,7 @@
     </div>
     <div class="col-sm-8 text-left"> 
       <h1>Add new company</h1>
-      <hr>
+      <hr/>
       <spring:form action="addnewcompany" method="post" modelAttribute="company">
 		<div class="form-group col-xs-4">
 			<spring:label path="code">Enter code</spring:label>
@@ -95,8 +95,8 @@
 				<spring:errors path="turnover" class="alert-danger"/>
 			</div>
 		</div>
-		<div class="col-xs-9"></div>
-		<div class="form-group col-xs-4">
+		<div class="col-xs-11"></div>
+		<div class="form-group col-xs-2">
 			<input type="submit" value="Save" class="form-control"/>
 		</div>
 	</spring:form>
@@ -105,7 +105,9 @@
     </div>
   </div>
 </div>
-<jsp:include page="footer.jsp"/>
+<footer class="container-fluid text-center">
+  <p>A Java training initiative</p>
+</footer>
 </body>
 <jsp:include page="bootstrapscripts.jsp"/>
 </html>

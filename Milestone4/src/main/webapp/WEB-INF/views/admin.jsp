@@ -44,9 +44,9 @@
     </div>
   </div>
 </div>
-<core:if test="${param.saved != null}">
+<!--<core:if test="${param.saved != null}">
 	<i>This is the saved id = ${userOutput.username}</i>
-</core:if>
+</core:if> -->
 <jsp:include page="footer.jsp"/>
 </body>
 <jsp:include page="bootstrapscripts.jsp"/>

@@ -15,8 +15,16 @@
     footer {
       background-color: #555;
       color: white;
-      padding: 15px;
+      padding: 15px;      
     }
+    
+    .custom-footer{
+    	position: fixed ;
+	      left: 0;
+	      bottom: 0;
+	      height: 45px;
+	      width: 100%;
+      }
     
     @media screen and (max-width: 767px) {
       .sidenav {

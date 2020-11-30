@@ -40,7 +40,7 @@
 				<div class="form-group col-xs-2">	
 					<div><spring:label path="password">Enter password</spring:label></div>
 					<div>
-						<spring:input path="password" type="text" class="form-control"/>
+						<spring:input path="password" type="password" class="form-control"/>
 						<spring:errors path="password" class="alert-danger"/>
 					</div>
 				</div>
