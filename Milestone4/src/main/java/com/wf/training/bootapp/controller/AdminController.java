@@ -41,7 +41,7 @@ public class AdminController {
 			if(result.hasErrors()) {
 				return "new-backofficerep";
 			}
-			UsersOutputDto userOutput =  this.service.addNewRep(user);
+			UsersOutputDto userOutput =  this.service.addNewRep(user,"BACK");
 			model.addAttribute("userOutput", userOutput);
 			System.out.println("Saved:"+userOutput.getUsername());
 			return "redirect:/admin/home?saved";

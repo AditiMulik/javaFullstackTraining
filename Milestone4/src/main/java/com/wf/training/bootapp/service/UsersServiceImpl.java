@@ -24,20 +24,26 @@ public class UsersServiceImpl implements UsersService {
 		return userOutputDto;
 	}
 	
-	private Users covertInputDtoToEntity(UsersInputDto userInput) {
+	private Users covertInputDtoToEntity(UsersInputDto userInput, String role) {
 		Users user = new Users();
 		user.setUsername(userInput.getUsername());
 		user.setPassword(userInput.getPassword());
+		user.setRole(role);
 		return user;
 	}
 	
 	@Override
-	public UsersOutputDto addNewRep(@Valid UsersInputDto userInput) {
-		// convert dto into entity
-		Users user = this.covertInputDtoToEntity(userInput);
-		// save entity in DB : returns the copy of newly added record back
+	public UsersOutputDto addNewRep(@Valid UsersInputDto userInput, String role) {
+		Users user = this.covertInputDtoToEntity(userInput,role);
 		Users newUser = this.repository.save(user);
-		// convert entity into output dto
+		UsersOutputDto userOutputDto = this.convertEntityToOutputDto(newUser);
+		return userOutputDto;
+	}
+
+	@Override
+	public UsersOutputDto addNewInvestor(@Valid UsersInputDto userInput, String role) {
+		Users user = this.covertInputDtoToEntity(userInput,role);
+		Users newUser = this.repository.save(user);
 		UsersOutputDto userOutputDto = this.convertEntityToOutputDto(newUser);
 		return userOutputDto;
 	}

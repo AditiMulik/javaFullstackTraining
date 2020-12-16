@@ -32,17 +32,17 @@ public class Portfolio {
 		this.username = username;
 	}
 
-	private Integer portfolioValue;
+	private Integer portfolioWalletValue;
 	
 	private Integer amountInvested;
 	
 	private Integer amountEarned;
 	
-	public Integer getPortfolioValue() {
-		return portfolioValue;
+	public Integer getPortfolioWalletValue() {
+		return portfolioWalletValue;
 	}
-	public void setPortfolioValue(Integer portfolioValue) {
-		this.portfolioValue = portfolioValue;
+	public void setPortfolioWalletValue(Integer portfolioWalletValue) {
+		this.portfolioWalletValue = portfolioWalletValue;
 	}
 	public Integer getAmountInvested() {
 		return amountInvested;

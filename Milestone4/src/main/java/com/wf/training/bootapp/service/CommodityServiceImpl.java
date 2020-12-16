@@ -15,18 +15,21 @@ import com.wf.training.bootapp.repository.CommodityDetailsRepository;
 public class CommodityServiceImpl implements CommodityService {
 
 	@Autowired CommodityDetailsRepository repository;
+	
+	@Autowired
+	StockExchangeService stockExchangeService;
 
 	private CommodityOutputDto convertEntityToOutputDto(CommodityDetails commodityDetails) {
 		CommodityOutputDto commodityOutputDto = new CommodityOutputDto();
 		commodityOutputDto.setType(commodityDetails.getType());
-		commodityOutputDto.setPrice(commodityDetails.getPrice());
+		commodityOutputDto.setPrice(commodityDetails.getPrice().toString());
 		return commodityOutputDto;
 	}
 	
 	private CommodityDetails covertInputDtoToEntity(CommodityInputDto commodityInputDto) {
 		CommodityDetails commodityDetails = new CommodityDetails();
 		commodityDetails.setType(commodityInputDto.getType());
-		commodityDetails.setPrice(commodityInputDto.getPrice());
+		commodityDetails.setPrice(Integer.valueOf(commodityInputDto.getPrice()));
 		return commodityDetails;
 	}
 	
@@ -42,16 +45,25 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Override
 	public CommodityOutputDto fetchSingleCommodity(Long id) {
-		CommodityDetails commodityDetails = this.repository.findById(id).orElse(null);
-		CommodityOutputDto commodityOutputDto =  this.convertEntityToOutputDto(commodityDetails);
-		return commodityOutputDto;
+		return null;
 	}
 
 	@Override
 	public CommodityOutputDto addCommodity(CommodityInputDto commodityInputDto) {
-		CommodityDetails commodityDetails = this.covertInputDtoToEntity(commodityInputDto);
+		CommodityDetails existingCommodityDetails = this.repository.findByType(commodityInputDto.getType());
+		CommodityDetails commodityDetails = new CommodityDetails();
+		if(existingCommodityDetails == null) {
+			commodityDetails = this.covertInputDtoToEntity(commodityInputDto);
+		}
+		else {
+			commodityDetails = this.repository.findById(existingCommodityDetails.getId()).orElse(null);
+			commodityDetails.setPrice(Integer.valueOf(commodityInputDto.getPrice()));
+		}
+
 		CommodityDetails newCommodityDetails = this.repository.save(commodityDetails);
 		CommodityOutputDto commodityOutputDto = this.convertEntityToOutputDto(newCommodityDetails);
+		
+		this.stockExchangeService.updateCommodityRecords();
 		return commodityOutputDto;
 	}
 
@@ -62,6 +74,12 @@ public class CommodityServiceImpl implements CommodityService {
 		CommodityDetails updatedCommodityDetails = this.repository.save(commodityDetails);
 		CommodityOutputDto commodityOutputDto = this.convertEntityToOutputDto(updatedCommodityDetails);
 		return commodityOutputDto;
+	}
+
+	@Override
+	public Integer fetchCommodityPrice(String type) {
+		CommodityDetails commodityDetails = this.repository.findByType(type);
+		return commodityDetails.getPrice();
 	}
 
 }

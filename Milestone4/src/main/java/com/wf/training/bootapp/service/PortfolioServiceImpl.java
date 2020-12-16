@@ -20,7 +20,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 		PortfolioOutputDto portfolioOutputDto = new PortfolioOutputDto();
 		portfolioOutputDto.setAmountEarned(portfolio.getAmountEarned());
 		portfolioOutputDto.setAmountInvested(portfolio.getAmountInvested());
-		portfolioOutputDto.setPortfolioValue(portfolio.getPortfolioValue());
+		portfolioOutputDto.setPortfolioValue(portfolio.getPortfolioWalletValue());
 		portfolioOutputDto.setId(portfolio.getId());
 		return portfolioOutputDto;
 	}
@@ -29,10 +29,8 @@ public class PortfolioServiceImpl implements PortfolioService {
 		Portfolio portfolio = new Portfolio();
 		portfolio.setAmountEarned(Integer.parseInt(portfolioInputDto.getAdditionamount())-Integer.parseInt(portfolioInputDto.getDeletionamount()));
 		portfolio.setAmountInvested(0);
-		portfolio.setPortfolioValue(portfolio.getAmountEarned()-portfolio.getAmountInvested());
+		portfolio.setPortfolioWalletValue(portfolio.getAmountEarned()-portfolio.getAmountInvested());
 		portfolio.setUsername(username);
-		System.out.println("\n"+portfolio.getAmountEarned()+" "+portfolio.getAmountInvested());
-		
 		return portfolio;
 	}
 	
@@ -47,8 +45,8 @@ public class PortfolioServiceImpl implements PortfolioService {
 	}
 
 	@Override
-	public PortfolioOutputDto fetchSinglePortfolio(Long id,String username) {
-		Portfolio portfolio = this.repository.findById(id).orElse(null);
+	public PortfolioOutputDto fetchSinglePortfolio(String username) {
+		Portfolio portfolio = this.repository.findByUsername(username);
 		PortfolioOutputDto portfolioOutputDto =  this.convertEntityToOutputDto(portfolio);
 		return portfolioOutputDto;
 	}
@@ -63,14 +61,15 @@ public class PortfolioServiceImpl implements PortfolioService {
 
 	@Override
 	public PortfolioOutputDto editPortfolio(PortfolioInputDto portfolioInputDto,String username) {
+		
+		Portfolio testportfolio = this.repository.findByUsername(username);
+		int value= 0;
+		value = Integer.valueOf(portfolioInputDto.getAdditionamount())-Integer.valueOf(portfolioInputDto.getDeletionamount());
+		testportfolio.setPortfolioWalletValue(testportfolio.getPortfolioWalletValue() + value);
+		this.repository.save(testportfolio);
+		
 		PortfolioOutputDto portfolios = new PortfolioOutputDto();
-		portfolios = this.fetchSinglePortfolio((long) 1, username);
-		portfolioInputDto.setAdditionamount(String.valueOf((Integer.parseInt(portfolioInputDto.getAdditionamount())+portfolios.getAmountEarned())));
-		System.out.println(portfolioInputDto.getAdditionamount()+" "+portfolioInputDto.getDeletionamount());
-		Portfolio portfolio = this.covertInputDtoToEntity(portfolioInputDto, username);
-		portfolio.setId((long) 1);
-		Portfolio updatedPortfolio = this.repository.save(portfolio);
-		PortfolioOutputDto portfolioOutputDto = this.convertEntityToOutputDto(updatedPortfolio);
+		PortfolioOutputDto portfolioOutputDto = this.convertEntityToOutputDto(testportfolio);
 		return portfolioOutputDto;
 	}
 

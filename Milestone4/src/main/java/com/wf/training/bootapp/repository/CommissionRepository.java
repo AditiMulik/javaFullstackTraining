@@ -5,9 +5,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.wf.training.bootapp.model.StockPrices;
+import com.wf.training.bootapp.model.Commission;
 
 @Repository
-public interface StockPricesRepository extends JpaRepository<StockPrices, Long>{
-List<StockPrices> findByCompanyCode(String companyCode);
+public interface CommissionRepository extends JpaRepository<Commission, Long>{
+
+	List<Commission> findAllByOrderByIdAsc();
 }

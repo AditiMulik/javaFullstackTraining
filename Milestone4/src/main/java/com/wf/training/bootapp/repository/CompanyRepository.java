@@ -7,5 +7,6 @@ import com.wf.training.bootapp.model.Company;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long>{
+	Company findByCode(String code);
 
 }

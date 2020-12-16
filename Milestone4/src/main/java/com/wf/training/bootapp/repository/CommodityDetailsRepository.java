@@ -7,5 +7,5 @@ import com.wf.training.bootapp.model.CommodityDetails;
 
 @Repository
 public interface CommodityDetailsRepository extends JpaRepository<CommodityDetails, Long>{
-
+	CommodityDetails findByType(String type);
 }

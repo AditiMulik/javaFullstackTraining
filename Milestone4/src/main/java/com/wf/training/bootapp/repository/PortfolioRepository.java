@@ -8,4 +8,5 @@ import com.wf.training.bootapp.model.Portfolio;
 @Repository
 public interface PortfolioRepository extends JpaRepository<Portfolio, Long>{
 
+	Portfolio findByUsername(String username);
 }

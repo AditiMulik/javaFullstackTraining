@@ -15,6 +15,9 @@ import com.wf.training.bootapp.repository.CompanyRepository;
 public class CompanyServiceImpl implements CompanyService {
 	
 	@Autowired CompanyRepository repository;
+	
+	@Autowired
+	StockPricesService stockPricesService;
 
 	private CompanyOutputDto convertEntityToOutputDto(Company company) {
 		CompanyOutputDto companyOutputDto = new CompanyOutputDto();
@@ -22,10 +25,10 @@ public class CompanyServiceImpl implements CompanyService {
 		companyOutputDto.setCurrency(company.getCurrency());
 		companyOutputDto.setOperation(company.getOperation());
 		companyOutputDto.setSector(company.getSector());
-		companyOutputDto.setSharecount(company.getSharecount());
-		companyOutputDto.setShareprice(company.getShareprice());
+		companyOutputDto.setSharecount(company.getSharecount().toString());
+		companyOutputDto.setShareprice(this.stockPricesService.fetchSingleStockPrices(company.getCode()));//company.getShareprice().toString());
 		companyOutputDto.setTitle(company.getTitle());
-		companyOutputDto.setTurnover(company.getTurnover());
+		companyOutputDto.setTurnover(company.getTurnover().toString());
 		return companyOutputDto;
 	}
 	
@@ -35,10 +38,10 @@ public class CompanyServiceImpl implements CompanyService {
 		company.setCurrency(companyInputDto.getCurrency());
 		company.setOperation(companyInputDto.getOperation());
 		company.setSector(companyInputDto.getSector());
-		company.setSharecount(companyInputDto.getSharecount());
-		company.setShareprice(companyInputDto.getShareprice());
+		company.setSharecount(Integer.valueOf(companyInputDto.getSharecount()));
+		company.setShareprice(Integer.valueOf(companyInputDto.getShareprice()));
 		company.setTitle(companyInputDto.getTitle());
-		company.setTurnover(companyInputDto.getTurnover());
+		company.setTurnover(Integer.valueOf(companyInputDto.getTurnover()));
 		return company;
 	}
 	

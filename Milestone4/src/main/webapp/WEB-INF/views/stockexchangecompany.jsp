@@ -1,27 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%> 
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %> 
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script>
 <jsp:include page="common.jsp"/>
-<script>
-anychart.onDocumentLoad(function () {
-	var chart = anychart.line();
-	chart.spline(
-	    [
-	    	<c:forEach items="${portfolioReportOutputList}" var="portfolioReport" varStatus="count">
-	      	['${portfolioReport.reportdate}', ${portfolioReport.portfolioReportValue}],
-	      	</c:forEach>
-	    ]);
-    chart.title("Portfolio Report");
-    chart.container("container");
-    chart.draw();
-  });
-</script>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -34,7 +18,7 @@ anychart.onDocumentLoad(function () {
       	<li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span>
       		<security:authentication property="principal.username"/>
       	</a></li>
-        <li>
+        <li><span class="glyphicon glyphicon-log-out"></span>
         	<spring:form action="${pageContext.request.contextPath}/logout" method="POST">
 				<input type="submit" value="Logout" />
 			</spring:form>
@@ -57,12 +41,36 @@ anychart.onDocumentLoad(function () {
 	  <p><a href="${pageContext.request.contextPath}/investor/home">Set Currency Preference</a></p>
       </div>
     <div class="col-sm-8 text-left"> 
-      <h1>Portfolio Report</h1>
-      <hr><!-- 
-      <c:forEach items="${portfolioReportOutputList}" var="portfolioReport" varStatus="count">
-      	<c:out value="${portfolioReport.portfolioReportValue}"/><br/>
-      </c:forEach> -->
-      <div id="container" style="width: 500px; height: 400px;"></div>
+      <h1>Stock Exchange Company</h1>
+      <hr>
+      <div id="display" >
+       <spring:form action="tradecompany" method="post" modelAttribute="stockExchangeInputDto">
+      	<h2>Selected company to trade   : <spring:input path="companyCode" type="text" id="type" class="form-control" value="${companydetail.code}"/></h2>
+     	<h3>Company available sharecount: ${companydetail.sharecount}</h3>
+      	<h3>Company share price         : ${companydetail.shareprice}</h3>
+      	
+		<div id="displayBuy" class="form-group col-xs-4" style="display:none">
+			<div><label>Enter number of shares to buy</label></div>
+			<div>
+				<spring:input path="buyunitcount" type="text"  class="form-control" value="0"/>
+			</div>
+		</div>
+		<div class="col-xs-9"></div>
+		<div id="displaySell" class="form-group col-xs-4" style="display:none">
+			<div><label>Enter number of shares to sell</label></div>
+			<div>
+				<spring:input path="sellunitcount" type="text"  class="form-control" value="0"/>
+			</div>
+		</div>
+		<div class="col-xs-9"></div>
+		<div id="saveForm" class="form-group col-xs-4" style="display:none">
+			<input type="submit" value="Trade" class="form-control"/>
+		</div>
+	</spring:form>
+	
+      	<button class="btn btn-default" type="submit" onclick="displayBuy()">Buy stocks</button>
+      	<button class="btn btn-default" type="submit" onclick="displaySell()">Sell stocks</button>
+      </div>
     </div>
     <div class="col-sm-2 sidenav">
     </div>
@@ -72,4 +80,22 @@ anychart.onDocumentLoad(function () {
 <jsp:include page="footer.jsp"/>
 </body>
 <jsp:include page="bootstrapscripts.jsp"/>
+<script>
+function displayBuy(){
+	var displayBuy = document.getElementById("displayBuy");
+	var displaySell = document.getElementById("displaySell");
+	var saveForm = document.getElementById("saveForm");
+	displayBuy.style.display = "block";
+	displaySell.style.display = "none";
+	saveForm.style.display = "block";
+}
+function displaySell(){
+	var displaySell = document.getElementById("displaySell");
+	var displayBuy = document.getElementById("displayBuy");
+	var saveForm = document.getElementById("saveForm");
+	displaySell.style.display = "block";
+	displayBuy.style.display = "none";
+	saveForm.style.display = "block";
+}
+</script>
 </html>

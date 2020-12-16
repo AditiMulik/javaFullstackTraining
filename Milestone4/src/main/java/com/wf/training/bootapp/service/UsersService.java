@@ -10,8 +10,8 @@ import com.wf.training.bootapp.dto.UsersOutputDto;
 
 public interface UsersService {
 
-	UsersOutputDto addNewRep(@Valid UsersInputDto user);
-
+	UsersOutputDto addNewRep(@Valid UsersInputDto user, String role);
+	UsersOutputDto addNewInvestor(@Valid UsersInputDto user, String role);
 		
 	
 }

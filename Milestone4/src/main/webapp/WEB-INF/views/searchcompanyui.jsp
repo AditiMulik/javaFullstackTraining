@@ -44,16 +44,7 @@
     <div class="col-sm-8 text-left"> 
       <h1>Search Company</h1>
       <hr>
-		<!--  <div class="input-group form-group col-xs-3">
-	      <label for="company">Enter company code to search</label>
-	      <input list="companies" name="companies" id="company" placeholder="Select company code" class="form-control input-sm" >
-		  <datalist id="companies">
-		  	<c:forEach items="${companylist}" var="companies" varStatus="count">
-		  	<option value="${companies.code}">
-		    </c:forEach>
-		  </datalist>
-	    </div>-->
-	  <div id="display">
+		<div id="display">
 		<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
 		<table class="table" id="myTable">
 		  <thead class="thead-light">
@@ -83,7 +74,7 @@
 			      <td><c:out value="${companies.turnover}"/></td>
 			      <td>
 			      	
-				      <spring:form action="stockexchange" method="post" modelAttribute="company">
+				      <spring:form action="stockexchangecompany" method="post" modelAttribute="company">
 				      <spring:input path="code" type="text"  value="${companies.code}" style="display: none"/>
 				      <spring:input path="title" type="text"  value="${companies.title}" style="display: none"/>
 				      <spring:input path="operation" type="text"  value="${companies.operation}" style="display: none"/>

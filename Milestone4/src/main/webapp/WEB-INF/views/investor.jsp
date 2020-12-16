@@ -18,6 +18,9 @@
       	<li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span>
       		<security:authentication property="principal.username"/>
       	</a></li>
+      	<li class="active"><a href="#">
+      		Current portfolio value   : ${portfolioReportOutput.portfolioReportValue}
+      	</a></li>
         <li><span class="glyphicon glyphicon-log-out"></span>
         	<spring:form action="${pageContext.request.contextPath}/logout" method="POST">
 				<input type="submit" value="Logout" />
@@ -53,7 +56,7 @@
 		</div>
 		<div id="result"></div>
 		<div>
-			<p>Current portfolio value   : ${portfolioOutputDto.portfolioValue} </p>
+			<p>Current portfolio wallet value   : ${portfolioOutputDto.portfolioValue} </p>
 			<p>Amount earned till date  : ${portfolioOutputDto.amountEarned} </p>
 			<p>Amount invested till date: ${portfolioOutputDto.amountInvested} </p>
 		</div>

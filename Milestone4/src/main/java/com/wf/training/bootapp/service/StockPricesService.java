@@ -7,7 +7,7 @@ import com.wf.training.bootapp.dto.StockPricesOutputDto;
 
 public interface StockPricesService {
 	public List<StockPricesOutputDto> fetchAllStockPrices();
-	public StockPricesOutputDto fetchSingleStockPrices(Long id);
+	public String fetchSingleStockPrices(String companyCode);
 	public StockPricesOutputDto addStockPrices(StockPricesInputDto portfolioInputDto);
 	public StockPricesOutputDto editStockPrices(Long id, StockPricesInputDto portfolioInputDto);
 }

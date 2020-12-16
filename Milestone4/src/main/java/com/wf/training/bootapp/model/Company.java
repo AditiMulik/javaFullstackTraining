@@ -14,13 +14,13 @@ public class Company {
 	private String code;
 	private String title;
 	private String operation;
-	private String sharecount;
-	private String shareprice;
+	private Integer sharecount;
+	private Integer shareprice;
 	private String sector;
 	private String currency;
-	private String turnover;
-	public Company(String code, String title, String operation, String sharecount, String shareprice, String sector,
-			String currency, String turnover) {
+	private Integer turnover;
+	public Company(String code, String title, String operation, Integer sharecount, Integer shareprice, String sector,
+			String currency, Integer turnover) {
 		// TODO Auto-generated constructor stub
 		this.code = code;
 		this.title = title;
@@ -52,17 +52,11 @@ public class Company {
 	public void setOperation(String operation) {
 		this.operation = operation;
 	}
-	public String getSharecount() {
+	public Integer getSharecount() {
 		return sharecount;
 	}
-	public void setSharecount(String sharecount) {
-		this.sharecount = sharecount;
-	}
-	public String getShareprice() {
+	public Integer getShareprice() {
 		return shareprice;
-	}
-	public void setShareprice(String shareprice) {
-		this.shareprice = shareprice;
 	}
 	public String getSector() {
 		return sector;
@@ -76,13 +70,22 @@ public class Company {
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
-	public String getTurnover() {
-		return turnover;
-	}
-	public void setTurnover(String turnover) {
-		this.turnover = turnover;
-	}
 	public void setId(Long id2) {
 		this.setId(id2);
+	}
+	public Integer getTurnover() {
+		return turnover;
+	}
+	public void setTurnover(Integer turnover) {
+		this.turnover = turnover;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setSharecount(Integer sharecount) {
+		this.sharecount = sharecount;
+	}
+	public void setShareprice(Integer shareprice) {
+		this.shareprice = shareprice;
 	}
 }

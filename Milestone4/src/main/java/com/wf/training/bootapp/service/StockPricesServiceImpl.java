@@ -15,6 +15,12 @@ public class StockPricesServiceImpl implements StockPricesService {
 
 	@Autowired StockPricesRepository repository;
 	
+	@Autowired
+	PortfolioReportService portfolioReportService;
+	
+	@Autowired
+	StockExchangeService stockExchangeService;
+	
 	private StockPricesOutputDto convertEntityToOutputDto(StockPrices stockPrices) {
 		StockPricesOutputDto stockPricesOutputDto = new StockPricesOutputDto();
 		stockPricesOutputDto.setCompanyCode(stockPrices.getCompanyCode());
@@ -42,9 +48,14 @@ public class StockPricesServiceImpl implements StockPricesService {
 	}
 
 	@Override
-	public StockPricesOutputDto fetchSingleStockPrices(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public String fetchSingleStockPrices(String companyCode) {
+		System.out.println("DEbug3");
+		List<StockPrices> stockPrices = this.repository.findByCompanyCode(companyCode);
+		System.out.println("\nstockPrices "+companyCode+"|"+stockPrices.get(stockPrices.size()-1).getStockprice());
+		if(stockPrices.size()==0) {
+			return stockPrices.get(stockPrices.size()).getStockprice();
+		}
+		return stockPrices.get(stockPrices.size()-1).getStockprice();
 	}
 
 	@Override
@@ -52,6 +63,9 @@ public class StockPricesServiceImpl implements StockPricesService {
 		StockPrices stockPrices = this.covertInputDtoToEntity(stockPricesInputDto);
 		StockPrices newStockPrices = this.repository.save(stockPrices);
 		StockPricesOutputDto stockPricesOutputDto = this.convertEntityToOutputDto(newStockPrices);
+		
+		this.stockExchangeService.updateCompanyRecords();
+		
 		return stockPricesOutputDto;
 	}
 

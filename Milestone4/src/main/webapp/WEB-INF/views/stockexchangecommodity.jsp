@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%> 
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %> 
 <!DOCTYPE html>
@@ -41,12 +42,57 @@
 	  <p><a href="${pageContext.request.contextPath}/investor/home">Set Currency Preference</a></p>
       </div>
     <div class="col-sm-8 text-left"> 
-      <h1>Stock Exchange</h1>
+      <h1>Stock Exchange Commodity</h1>
       <hr>
       <div>
-      	<a href="${pageContext.request.contextPath}/investor/stockexchangecommodity">Commodity investment</a>
-      	<br/>
-      	<a href="${pageContext.request.contextPath}/investor/searchcompanyui">Share investment</a>
+		<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+		<table class="table" id="myTable">
+		  <thead class="thead-light">
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Type</th>
+		      <th scope="col">Price</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<c:forEach items="${commoditylist}" var="commodities" varStatus="count">
+		  		<tr onclick='showDisplayDiv(this)' id="${commodities.type}+${commodities.price}">
+			      <th scope="row">1</th>
+			      <td><c:out value="${commodities.type}"/></td>
+			      <td><c:out value="${commodities.price}"/></td>
+			      <td>
+				      <button class="btn btn-default" type="submit">Select </button>
+			      </td>
+			    </tr>
+		  	</c:forEach>
+		  </tbody>
+		</table>
+	</div>
+	<div id="display" >
+      <spring:form action="tradecommodity" method="post" modelAttribute="stockExchangeInputDto">
+      	<h2>Selected commodity to trade   : <spring:input path="commodityType" type="text" id="type" class="form-control"/></h2>
+     	<h3>Commodity price         : <p id="price"></p></h3>
+		<div id="displayBuy" class="form-group col-xs-4" style="display:none">
+			<div><label>Enter number of shares to buy</label></div>
+			<div>
+				<spring:input path="buyunitcount" type="text"  class="form-control" value="0"/>
+			</div>
+		</div>
+		<div class="col-xs-9"></div>
+		<div id="displaySell" class="form-group col-xs-4" style="display:none">
+			<div><label>Enter number of shares to sell</label></div>
+			<div>
+				<spring:input path="sellunitcount" type="text"  class="form-control" value="0"/>
+			</div>
+		</div>
+		<div class="col-xs-9"></div>
+		<div id="saveForm" class="form-group col-xs-4" style="display:none">
+			<input type="submit" value="Trade" class="form-control"/>
+		</div>
+	</spring:form>
+	
+      	<button class="btn btn-default" type="submit" onclick="displayBuy()">Buy stocks</button>
+      	<button class="btn btn-default" type="submit" onclick="displaySell()">Sell stocks</button>
       </div>
     </div>
     <div class="col-sm-2 sidenav">
@@ -58,6 +104,13 @@
 </body>
 <jsp:include page="bootstrapscripts.jsp"/>
 <script>
+function showDisplayDiv( value1){
+	var displayDiv = document.getElementById("display");
+	displayDiv.style.visibility="visible";
+	var res = value1.id.split("+");
+	document.getElementById("type").value = res[0];
+	document.getElementById("price").innerHTML = res[1];
+}
 function displayBuy(){
 	var displayBuy = document.getElementById("displayBuy");
 	var displaySell = document.getElementById("displaySell");

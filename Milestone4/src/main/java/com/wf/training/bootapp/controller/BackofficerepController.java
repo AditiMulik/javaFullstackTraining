@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wf.training.bootapp.dto.CommissionOutput;
 import com.wf.training.bootapp.dto.CommodityInputDto;
 import com.wf.training.bootapp.dto.CommodityOutputDto;
 import com.wf.training.bootapp.dto.CompanyInputDto;
@@ -23,6 +24,7 @@ import com.wf.training.bootapp.dto.CompanyOutputDto;
 import com.wf.training.bootapp.dto.StockPricesInputDto;
 import com.wf.training.bootapp.dto.StockPricesOutputDto;
 import com.wf.training.bootapp.dto.UsersOutputDto;
+import com.wf.training.bootapp.service.CommissionService;
 import com.wf.training.bootapp.service.CommodityService;
 import com.wf.training.bootapp.service.CompanyService;
 import com.wf.training.bootapp.service.PortfolioService;
@@ -43,6 +45,9 @@ public class BackofficerepController {
 		
 		@Autowired
 		private StockPricesService stockPricesService;
+		
+		@Autowired
+		private CommissionService commissionService;
 	
 		@RequestMapping("/home")
 		public String home() {
@@ -121,8 +126,15 @@ public class BackofficerepController {
 		}
 		
 		@RequestMapping("/sendcommissionreport")
-		public String sendCommissionReport() {
-			System.out.println("send Commission report");
+		public String sendCommissionReport(Model model) {
+			System.out.println("send Commission report\n");
+			List<CommissionOutput> commissionList = this.commissionService.getAll();
+			for(CommissionOutput commission : commissionList) {
+				System.out.println(commission.getCommissionAmount()+" "
+						+commission.getStockdate()+" "
+						+commission.getStocktime());
+			}
+			model.addAttribute("commissionList",commissionList);
 			return "commissionreportoutput";
 		}
 		

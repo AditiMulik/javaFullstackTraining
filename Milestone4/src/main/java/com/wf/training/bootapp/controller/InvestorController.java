@@ -14,12 +14,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wf.training.bootapp.dto.CommodityOutputDto;
 import com.wf.training.bootapp.dto.CompanyInputDto;
 import com.wf.training.bootapp.dto.CompanyOutputDto;
 import com.wf.training.bootapp.dto.PortfolioInputDto;
 import com.wf.training.bootapp.dto.PortfolioOutputDto;
+import com.wf.training.bootapp.dto.PortfolioReportOutput;
+import com.wf.training.bootapp.dto.StockExchangeInputDto;
+import com.wf.training.bootapp.dto.StockExchangeOutputDto;
+import com.wf.training.bootapp.model.CommodityDetails;
+import com.wf.training.bootapp.service.CommodityService;
 import com.wf.training.bootapp.service.CompanyService;
+import com.wf.training.bootapp.service.PortfolioReportService;
 import com.wf.training.bootapp.service.PortfolioService;
+import com.wf.training.bootapp.service.StockExchangeService;
 
 
 
@@ -32,11 +40,23 @@ public class InvestorController {
 		
 		@Autowired
 		private PortfolioService portfolioService;
+		
+		@Autowired
+		private PortfolioReportService portfolioReportService;
+		
+		@Autowired
+		private CommodityService commodityService;
+		
+		@Autowired
+		private StockExchangeService stockExchangeService;
 	
 		@RequestMapping("/home")
 		public String home(Principal principal, Model model) {
-			PortfolioOutputDto portfolioOutputDto = this.portfolioService.fetchSinglePortfolio((long) 1, principal.getName());
+			PortfolioOutputDto portfolioOutputDto = this.portfolioService.fetchSinglePortfolio(principal.getName());
 			model.addAttribute("portfolioOutputDto",portfolioOutputDto);
+			
+			PortfolioReportOutput portfolioReportOutput = this.portfolioReportService.fetchSinglePortfolioReport(principal.getName());
+			model.addAttribute("portfolioReportOutput",portfolioReportOutput);
 			return "investor";
 		}
 		
@@ -74,14 +94,54 @@ public class InvestorController {
 		}
 
 		
+		@RequestMapping("/stockexchangecommodity")
+		public String stockexchangecommodity(Model model) {
+			System.out.println("stockexchangecommodity");
+			
+			List<CommodityOutputDto> commoditylist = new ArrayList<CommodityOutputDto>();
+			commoditylist = this.commodityService.fetchAllCommodity();
+			model.addAttribute("commoditylist",commoditylist);
+			StockExchangeInputDto stockExchangeInputDto = new StockExchangeInputDto();
+			model.addAttribute("stockExchangeInputDto",stockExchangeInputDto);
+			return "stockexchangecommodity";
+		}
+
+		
+		@RequestMapping("/stockexchangecompany")
+		public String stockexchangecompany(@ModelAttribute("company") CompanyInputDto companyInputDto, Model model) {
+			System.out.println("stockexchangecompany"+companyInputDto.getCode());
+			model.addAttribute("companydetail",companyInputDto);
+			StockExchangeInputDto stockExchangeInputDto = new StockExchangeInputDto();
+			model.addAttribute("stockExchangeInputDto",stockExchangeInputDto);
+			return "stockexchangecompany";
+		}
+		
+		@RequestMapping("/tradecommodity")
+		public String tradecommodity(@ModelAttribute("stockExchangeInputDto") StockExchangeInputDto stockExchangeInputDto, Principal principal) {
+			stockExchangeInputDto.setUsername(principal.getName());
+			System.out.println("stockexchangecommodity"+stockExchangeInputDto.getCommodityType()+stockExchangeInputDto.getBuyunitcount()
+			+stockExchangeInputDto.getSellunitcount()+stockExchangeInputDto.getCompanyCode()+stockExchangeInputDto.getUsername());
+			
+			StockExchangeOutputDto stockExchangeOutputDto = this.stockExchangeService.tradeCommodity(stockExchangeInputDto);
+			return "redirect:/investor/home";
+		}
+		
+		@RequestMapping("/tradecompany")
+		public String tradecompany(@ModelAttribute("stockExchangeInputDto") StockExchangeInputDto stockExchangeInputDto, Principal principal) {
+			stockExchangeInputDto.setUsername(principal.getName());
+			System.out.println("stockexchangecommodity"+stockExchangeInputDto.getCommodityType()+stockExchangeInputDto.getBuyunitcount()
+			+stockExchangeInputDto.getSellunitcount()+stockExchangeInputDto.getCompanyCode()+stockExchangeInputDto.getUsername());
+			
+			StockExchangeOutputDto stockExchangeOutputDto = this.stockExchangeService.tradeCompany(stockExchangeInputDto);
+			return "redirect:/investor/home";
+		}
+		
 		@RequestMapping("/portfolioupdateui")
 		public String portfolioUpdateUI(Model model, Principal principal)  {
 			System.out.println("portfolioUpdateui");
-			/*Users user = new Users();
-			user.setUsername("a1"); */
 			PortfolioInputDto portfolio = new PortfolioInputDto();
 			model.addAttribute("portfolio",portfolio);
-			PortfolioOutputDto portfolioOutputDto = this.portfolioService.fetchSinglePortfolio((long) 1, principal.getName());
+			PortfolioOutputDto portfolioOutputDto = this.portfolioService.fetchSinglePortfolio(principal.getName());
 			model.addAttribute("portfolioOutputDto",portfolioOutputDto);
 			return "portfolioupdate";
 		}
@@ -104,8 +164,11 @@ public class InvestorController {
 		}
 		
 		@RequestMapping("/sendportfolioreport")
-		public String sendPortfolioReport(Model model) {
+		public String sendPortfolioReport(Model model,Principal principal) {
 			System.out.println("send portfolioreport");
+			List<PortfolioReportOutput> portfolioReportOutputList = this.portfolioReportService.getAllForUser(principal.getName());
+			model.addAttribute("portfolioReportOutputList",portfolioReportOutputList);
+			//System.out.println("\n "+portfolioReportOutput.getPortfolioReportValue()+"|"+portfolioReportOutput.getReportdate()+"|"+portfolioReportOutput.getReporttime());
 			return "portfolioreportoutput";
 		}
 		

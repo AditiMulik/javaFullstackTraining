@@ -17,6 +17,9 @@ public class StockPrices {
 	private String companyCode;
 	private String stockprice;
 	private String currentprice;
+	private LocalDate stockdate;
+	private LocalTime stocktime;
+	
 	public String getCompanyCode() {
 		return companyCode;
 	}
@@ -47,6 +50,5 @@ public class StockPrices {
 	public void setStocktime(LocalTime stocktime) {
 		this.stocktime = stocktime;
 	}
-	private LocalDate stockdate;
-	private LocalTime stocktime;
+	
 }
