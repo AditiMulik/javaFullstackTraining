@@ -1,5 +1,7 @@
 package com.wf.training.bootapp.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +38,8 @@ public class StockPricesServiceImpl implements StockPricesService {
 		stockPrices.setCompanyCode(stockPricesInputDto.getCompanyCode());
 		stockPrices.setCurrentprice(stockPricesInputDto.getCurrentprice());
 		stockPrices.setStockprice(stockPricesInputDto.getStockprice());
-		stockPrices.setStockdate(stockPricesInputDto.getStockdate());
-		stockPrices.setStocktime(stockPricesInputDto.getStocktime());
+		stockPrices.setStockdate(LocalDate.now());
+		stockPrices.setStocktime(LocalTime.now());
 		return stockPrices;
 	}
 	
@@ -50,12 +52,21 @@ public class StockPricesServiceImpl implements StockPricesService {
 	@Override
 	public String fetchSingleStockPrices(String companyCode) {
 		System.out.println("DEbug3");
-		List<StockPrices> stockPrices = this.repository.findByCompanyCode(companyCode);
-		System.out.println("\nstockPrices "+companyCode+"|"+stockPrices.get(stockPrices.size()-1).getStockprice());
-		if(stockPrices.size()==0) {
-			return stockPrices.get(stockPrices.size()).getStockprice();
-		}
-		return stockPrices.get(stockPrices.size()-1).getStockprice();
+		List<StockPrices> stockPrices = this.repository.findByCompanyCodeOrderByIdDesc(companyCode);
+//		System.out.println("\nstockPrices "+companyCode+"|"+stockPrices.get(stockPrices.size()-1).getStockprice());
+//		if(stockPrices.size()==0) {
+//			return stockPrices.get(stockPrices.size()).getStockprice();
+//		}
+//		return stockPrices.get(stockPrices.size()-1).getStockprice();
+		return stockPrices.get(0).getStockprice();
+	}
+	
+	@Override
+	public String fetchSingleCurrentStockPrices(String companyCode) {
+		System.out.println("DEbug3");
+		List<StockPrices> stockPrices = this.repository.findByCompanyCodeOrderByIdDesc(companyCode);
+		System.out.println("\nstockPrices.get(0).getCurrentprice()"+stockPrices.get(0).getCurrentprice());
+		return stockPrices.get(0).getCurrentprice();
 	}
 
 	@Override

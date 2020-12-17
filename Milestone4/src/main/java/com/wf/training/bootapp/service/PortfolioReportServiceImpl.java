@@ -46,9 +46,7 @@ public class PortfolioReportServiceImpl implements PortfolioReportService {
 		double value = 0;
 		for(int i=0;i<stockexchangedetails.size();i++) {
 			if(stockexchangedetails.get(i).getType().equals("Company")) {
-				System.out.println("DEbug1 "+stockexchangedetails.get(i).getCompanyCode());
 				companyValue = this.stockPricesService.fetchSingleStockPrices(stockexchangedetails.get(i).getCompanyCode());
-				System.out.println("DEbug2");
 				value = Integer.parseInt(companyValue)*stockexchangedetails.get(i).getUnitcount();
 				portfolioReport.setPortfolioReportValue(portfolioReport.getPortfolioReportValue()+value);
 			}
@@ -73,13 +71,9 @@ public class PortfolioReportServiceImpl implements PortfolioReportService {
 	@Override
 	public List<PortfolioReportOutput> getAllForUser(String username) {
 		List<PortfolioReport> portfolioReportList = this.portfolioReportRepository.findByUsernameOrderById(username);
-		for(int i=0;i<portfolioReportList.size();i++) {
-			System.out.println("\nportfolioReportList"+portfolioReportList.get(i).getId()+"|"+portfolioReportList.get(i).getReportdate()+"|"+portfolioReportList.get(i).getPortfolioReportValue());
-		}
 		List<PortfolioReportOutput> portfolioReportOutputList = portfolioReportList.stream()
 				 .map(this :: convertEntityToOutputDto)
 				 .collect(Collectors.toList());
-		System.out.println("\nportfolioReportList"+portfolioReportList.size()+"\nportfolioReportOutputList"+portfolioReportOutputList.size());
 		return portfolioReportOutputList;
 	}
 

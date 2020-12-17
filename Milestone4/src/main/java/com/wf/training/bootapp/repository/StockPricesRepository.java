@@ -9,5 +9,5 @@ import com.wf.training.bootapp.model.StockPrices;
 
 @Repository
 public interface StockPricesRepository extends JpaRepository<StockPrices, Long>{
-List<StockPrices> findByCompanyCode(String companyCode);
+List<StockPrices> findByCompanyCodeOrderByIdDesc(String companyCode);
 }

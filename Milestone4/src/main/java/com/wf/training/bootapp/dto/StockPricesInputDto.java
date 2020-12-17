@@ -12,7 +12,6 @@ public class StockPricesInputDto {
 	@NotBlank(message = "Stock Price can't be empty")
 	private String stockprice;
 	
-	@NotBlank(message = "Current Price can't be empty")
 	private String currentprice;
 	
 	public String getCompanyCode() {

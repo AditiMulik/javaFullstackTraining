@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.wf.training.bootapp.dto.CommodityOutputDto;
 import com.wf.training.bootapp.dto.CompanyInputDto;
 import com.wf.training.bootapp.dto.CompanyOutputDto;
+import com.wf.training.bootapp.dto.EarningReportOutput;
 import com.wf.training.bootapp.dto.PortfolioInputDto;
 import com.wf.training.bootapp.dto.PortfolioOutputDto;
 import com.wf.training.bootapp.dto.PortfolioReportOutput;
@@ -25,6 +26,7 @@ import com.wf.training.bootapp.dto.StockExchangeOutputDto;
 import com.wf.training.bootapp.model.CommodityDetails;
 import com.wf.training.bootapp.service.CommodityService;
 import com.wf.training.bootapp.service.CompanyService;
+import com.wf.training.bootapp.service.EarningReportService;
 import com.wf.training.bootapp.service.PortfolioReportService;
 import com.wf.training.bootapp.service.PortfolioService;
 import com.wf.training.bootapp.service.StockExchangeService;
@@ -45,6 +47,9 @@ public class InvestorController {
 		private PortfolioReportService portfolioReportService;
 		
 		@Autowired
+		private EarningReportService earningReportService;
+		
+		@Autowired
 		private CommodityService commodityService;
 		
 		@Autowired
@@ -61,8 +66,10 @@ public class InvestorController {
 		}
 		
 		@RequestMapping("/earningtrend")
-		public String earningTrend(Model model) {
+		public String earningTrend(Model model, Principal principal) {
 			System.out.println("earningtrend");
+			List<EarningReportOutput> earningReportOutputList = this.earningReportService.getAllForUser(principal.getName());
+			model.addAttribute("earningReportOutputList",earningReportOutputList);
 			return "investorearningtrend";
 		}
 
@@ -168,7 +175,6 @@ public class InvestorController {
 			System.out.println("send portfolioreport");
 			List<PortfolioReportOutput> portfolioReportOutputList = this.portfolioReportService.getAllForUser(principal.getName());
 			model.addAttribute("portfolioReportOutputList",portfolioReportOutputList);
-			//System.out.println("\n "+portfolioReportOutput.getPortfolioReportValue()+"|"+portfolioReportOutput.getReportdate()+"|"+portfolioReportOutput.getReporttime());
 			return "portfolioreportoutput";
 		}
 		

@@ -50,6 +50,9 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 	@Autowired
 	CommodityService commodityService;
 	
+	@Autowired
+	EarningReportService earningReportService;
+	
 	private StockExchangeOutputDto convertStockExchangeEntityToStockExchangeOutputDto(StockExchange stockExchange) {
 		StockExchangeOutputDto stockExchangeOutputDto = new StockExchangeOutputDto(stockExchange.getId(), 
 				stockExchange.getType(), stockExchange.getUnitprice().toString(), stockExchange.getTotalprice().toString(), 
@@ -90,7 +93,7 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 				Company company = this.companyRepository.findByCode(stockExchange.getCompanyCode());
 				company.setSharecount(company.getSharecount()-Integer.valueOf(stockExchangeInputDto.getBuyunitcount()));
 				this.companyRepository.save(company);
-				stockExchange.setUnitprice(company.getShareprice());
+				stockExchange.setUnitprice(Integer.valueOf(this.stockPricesService.fetchSingleStockPrices(company.getCode())));
 				stockExchange.setTotalprice(stockExchange.getUnitprice()*Integer.valueOf(stockExchangeInputDto.getBuyunitcount()));
 			}
 			else{
@@ -125,6 +128,8 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 			Company company = this.companyRepository.findByCode(stockExchange.getCompanyCode());
 			company.setSharecount(company.getSharecount()+Integer.valueOf(stockExchangeInputDto.getSellunitcount()));
 			this.companyRepository.save(company);
+			
+			this.earningReportService.addNewPortfolioReport(portfolio.getUsername(), (int)(sellPrice-commissionAmount));
 		}
 		return null;
 	}
@@ -169,6 +174,9 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 			Commission commission = new Commission(stockExchangeInputDto.getUsername(), commissionAmount, LocalDate.now(), LocalTime.now());
 			this.commissionService.addNewCommission(commission);
 			this.portfolioReportService.addNewPortfolioReport(stockExchangeInputDto.getUsername());
+
+			
+			this.earningReportService.addNewPortfolioReport(portfolio.getUsername(), (int)(sellPrice-commissionAmount));
 		}
 		return null;
 	}

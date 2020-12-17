@@ -67,21 +67,28 @@
 					  </datalist>
 				</div>
 			</div>
-			<br/><div class="col-xs-9"></div>
-			<div class="form-group col-xs-4">
-				<spring:label path="stockprice">Enter latest stockprice</spring:label>
-				<div>
-					<spring:input id="stockprice" path="stockprice" type="text"  class="form-control"/>
-					<spring:errors path="stockprice" class="alert-danger"/>
-				</div>
-			</div>
 			<br/>
 			<div class="col-xs-9"></div>
 			<div class="form-group col-xs-4">
 				<spring:label path="currentprice">Current price (USD)</spring:label>
 				<div>
-					<spring:input path="currentprice" type="text" class="form-control"/>
-					<spring:errors path="currentprice" class="alert-danger"/>
+					<div>
+					<input id="currentprices" list="currentprice" class="form-control" readonly/>
+					<datalist id="currentprice">
+					  	<c:forEach items="${companylist}" var="companies" varStatus="count">
+					  	<option value="${companies.sharepriceusd}" id="${companies.code}usd">
+					    </c:forEach>
+					  </datalist>
+				</div>
+				</div>
+			</div>
+			<br/>
+			<div class="col-xs-9"></div>
+			<div class="form-group col-xs-4">
+				<spring:label path="stockprice">Enter latest stockprice</spring:label>
+				<div>
+					<spring:input id="stockprice" path="stockprice" type="text"  class="form-control"/>
+					<spring:errors path="stockprice" class="alert-danger"/>
 				</div>
 			</div>
 			<br/>
@@ -103,7 +110,11 @@
 function myFunction() {
   var x = document.getElementById('company').value;
   var y = document.getElementById(x).value;
-  document.getElementById('currentstockprice').value = y;  
+  document.getElementById('currentstockprice').value = y;
+  var z = document.getElementById(x+'usd').value;
+  document.getElementById('currentprices').value = z;
+  document.getElementById('currentpricesdummy').value = z;
+  
 }
 </script>
 </html>

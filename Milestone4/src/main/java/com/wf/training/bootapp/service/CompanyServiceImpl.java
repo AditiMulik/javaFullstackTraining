@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.wf.training.bootapp.dto.CompanyInputDto;
 import com.wf.training.bootapp.dto.CompanyOutputDto;
+import com.wf.training.bootapp.dto.StockPricesInputDto;
 import com.wf.training.bootapp.model.Company;
 import com.wf.training.bootapp.repository.CompanyRepository;
 
@@ -66,6 +67,13 @@ public class CompanyServiceImpl implements CompanyService {
 	public CompanyOutputDto addCompany(CompanyInputDto companyInputDto) {
 		Company company = this.covertInputDtoToEntity(companyInputDto);
 		Company newCompany = this.repository.save(company);
+		
+		StockPricesInputDto stockPricesInputDto = new StockPricesInputDto();
+		stockPricesInputDto.setCompanyCode(newCompany.getCode());
+		stockPricesInputDto.setCurrentprice(newCompany.getShareprice().toString());
+		stockPricesInputDto.setStockprice(newCompany.getShareprice().toString());
+		this.stockPricesService.addStockPrices(stockPricesInputDto);
+		
 		CompanyOutputDto companyOutputDto = this.convertEntityToOutputDto(newCompany);
 		return companyOutputDto;
 	}
@@ -75,6 +83,7 @@ public class CompanyServiceImpl implements CompanyService {
 		Company company = this.covertInputDtoToEntity(companyInputDto);
 		company.setId(id);
 		Company updatedCompany = this.repository.save(company);
+		
 		CompanyOutputDto companyOutputDto = this.convertEntityToOutputDto(updatedCompany);
 		return companyOutputDto;
 	}

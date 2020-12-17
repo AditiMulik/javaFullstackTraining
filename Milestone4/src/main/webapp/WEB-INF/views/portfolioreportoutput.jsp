@@ -58,10 +58,7 @@ anychart.onDocumentLoad(function () {
       </div>
     <div class="col-sm-8 text-left"> 
       <h1>Portfolio Report</h1>
-      <hr><!-- 
-      <c:forEach items="${portfolioReportOutputList}" var="portfolioReport" varStatus="count">
-      	<c:out value="${portfolioReport.portfolioReportValue}"/><br/>
-      </c:forEach> -->
+      <hr>
       <div id="container" style="width: 500px; height: 400px;"></div>
     </div>
     <div class="col-sm-2 sidenav">

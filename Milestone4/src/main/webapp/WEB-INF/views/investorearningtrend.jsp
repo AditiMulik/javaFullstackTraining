@@ -1,11 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%> 
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %> 
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://cdn.anychart.com/releases/8.9.0/js/anychart-base.min.js" type="text/javascript"></script>
 <jsp:include page="common.jsp"/>
+<script>
+anychart.onDocumentLoad(function () {
+	var chart = anychart.line();
+	chart.spline(
+	    [
+	    	<c:forEach items="${earningReportOutputList}" var="earningReport" varStatus="count">
+	      	['${earningReport.reportdate}', ${earningReport.earningReportValue}],
+	      	</c:forEach>
+	    ]);
+    chart.title("Earning trend");
+    chart.container("container");
+    chart.draw();
+  });
+</script>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -40,10 +56,10 @@
 	  <p><a href="${pageContext.request.contextPath}/investor/generateportfolioreport">Generate portfolio report</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/home">Set Currency Preference</a></p>
       </div>
-    <div class="col-sm-8 text-left"> 
+    <div class="col-sm-8 text-left">
       <h1>Earning trend</h1>
       <hr>
-      <img src="earningTrend.png" class="img-fluid" alt="Responsive image">
+      <div id="container" style="width: 500px; height: 400px;"></div>
     </div>
     <div class="col-sm-2 sidenav">
     </div>

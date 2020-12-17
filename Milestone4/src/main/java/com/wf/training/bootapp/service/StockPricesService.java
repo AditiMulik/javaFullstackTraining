@@ -10,4 +10,5 @@ public interface StockPricesService {
 	public String fetchSingleStockPrices(String companyCode);
 	public StockPricesOutputDto addStockPrices(StockPricesInputDto portfolioInputDto);
 	public StockPricesOutputDto editStockPrices(Long id, StockPricesInputDto portfolioInputDto);
+	String fetchSingleCurrentStockPrices(String companyCode);
 }

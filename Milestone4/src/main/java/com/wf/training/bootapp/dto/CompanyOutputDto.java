@@ -28,6 +28,8 @@ public class CompanyOutputDto {
 	@NotBlank(message = "Turnover can't be empty")
 	private String turnover;
 	
+	private String sharepriceusd;
+	
 	public CompanyOutputDto(String code, String title, String operation, String sharecount, String shareprice, String sector,
 			String currency, String turnover) {
 		// TODO Auto-generated constructor stub
@@ -90,6 +92,12 @@ public class CompanyOutputDto {
 	}
 	public void setTurnover(String turnover) {
 		this.turnover = turnover;
+	}
+	public String getSharepriceusd() {
+		return sharepriceusd;
+	}
+	public void setSharepriceusd(String sharepriceusd) {
+		this.sharepriceusd = sharepriceusd;
 	}
 
 }

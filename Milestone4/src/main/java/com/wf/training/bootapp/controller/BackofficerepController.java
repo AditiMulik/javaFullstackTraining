@@ -24,6 +24,7 @@ import com.wf.training.bootapp.dto.CompanyOutputDto;
 import com.wf.training.bootapp.dto.StockPricesInputDto;
 import com.wf.training.bootapp.dto.StockPricesOutputDto;
 import com.wf.training.bootapp.dto.UsersOutputDto;
+import com.wf.training.bootapp.repository.StockPricesRepository;
 import com.wf.training.bootapp.service.CommissionService;
 import com.wf.training.bootapp.service.CommodityService;
 import com.wf.training.bootapp.service.CompanyService;
@@ -48,6 +49,8 @@ public class BackofficerepController {
 		
 		@Autowired
 		private CommissionService commissionService;
+		
+		@Autowired StockPricesRepository stockPricesRepository;
 	
 		@RequestMapping("/home")
 		public String home() {
@@ -70,7 +73,6 @@ public class BackofficerepController {
 			}
 			CompanyOutputDto companyOutputDto =  this.companyService.addCompany(companyInputDto);
 			model.addAttribute("companyOutputDto", companyOutputDto);
-			System.out.println("Saved:"+companyOutputDto.getCode());
 			return "redirect:/backofficerep/home?saved";
 		}
 		
@@ -81,6 +83,10 @@ public class BackofficerepController {
 			model.addAttribute("stockprices",stockprices);
 			List<CompanyOutputDto> companylist = new ArrayList<CompanyOutputDto>();
 			companylist = this.companyService.fetchAllCompanies();
+			for(int i=0;i<companylist.size();i++) {
+				companylist.get(i).setShareprice(this.stockPricesService.fetchSingleStockPrices(companylist.get(i).getCode()));
+				companylist.get(i).setSharepriceusd(this.stockPricesService.fetchSingleCurrentStockPrices(companylist.get(i).getCode()));
+			}
 			model.addAttribute("companylist",companylist);
 			return "stockprices";
 		}
@@ -93,8 +99,9 @@ public class BackofficerepController {
 			}
 			stockprices.setStockdate(LocalDate.now());
 			stockprices.setStocktime(LocalTime.now());
+			stockprices.setCurrentprice(String.valueOf((Double.valueOf(stockprices.getStockprice())*0.6)));
 			StockPricesOutputDto stockPricesOutputDto =  this.stockPricesService.addStockPrices(stockprices);
-			model.addAttribute("commodityOutputDto", stockPricesOutputDto);
+			model.addAttribute("stockPricesOutputDto", stockPricesOutputDto);
 			System.out.println("Saved:"+stockPricesOutputDto);
 			return "redirect:/backofficerep/home?saved";
 		}
