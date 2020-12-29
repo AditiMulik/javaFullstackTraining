@@ -3,7 +3,7 @@ node{
 	def dockerHome
 	stage('Checkout'){
 		git url: 'https://github.com/AditiMulik/javaFullstackTraining/', branch: 'jenkinsTrial'
-		mvnHome = tool 'Local Maven'
+		mvnHome = tool 'MyMaven'
 	}
 	
 	stage('Build'){
