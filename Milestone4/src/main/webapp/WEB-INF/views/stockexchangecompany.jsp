@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%> 
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %> 
 <!DOCTYPE html>
@@ -17,6 +18,9 @@
       <ul class="nav navbar-nav navbar-right">
       	<li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span>
       		<security:authentication property="principal.username"/>
+      	</a></li>
+      	<li class="active"><a href="#">
+      		Current portfolio value   : ${portfolioReportOutput.portfolioReportValue}
       	</a></li>
         <li><span class="glyphicon glyphicon-log-out"></span>
         	<spring:form action="${pageContext.request.contextPath}/logout" method="POST">
@@ -38,8 +42,7 @@
 	  <p><a href="${pageContext.request.contextPath}/investor/stockexchange">Stock exchange</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/portfolioupdateui">Update portfolio</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/generateportfolioreport">Generate portfolio report</a></p>
-	  <p><a href="${pageContext.request.contextPath}/investor/home">Set Currency Preference</a></p>
-      </div>
+	  </div>
     <div class="col-sm-8 text-left"> 
       <h1>Stock Exchange Company</h1>
       <hr>
@@ -76,7 +79,6 @@
     </div>
   </div>
 </div>
-
 <jsp:include page="footer.jsp"/>
 </body>
 <jsp:include page="bootstrapscripts.jsp"/>

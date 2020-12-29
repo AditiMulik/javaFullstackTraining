@@ -41,7 +41,6 @@
 	  <p><a href="${pageContext.request.contextPath}/investor/stockexchange">Stock exchange</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/portfolioupdateui">Update portfolio</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/generateportfolioreport">Generate portfolio report</a></p>
-	  <p><a href="${pageContext.request.contextPath}/investor/home">Set Currency Preference</a></p>
       </div>
     <div class="col-sm-8 text-left"> 
       <h1>Investor Home</h1>

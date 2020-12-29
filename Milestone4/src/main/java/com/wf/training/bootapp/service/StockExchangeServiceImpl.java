@@ -60,6 +60,7 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 				stockExchange.getUsername());
 		Portfolio portfolio = this.portfolioRepository.findByUsername(stockExchange.getUsername());
 		portfolio.setAmountInvested(portfolio.getAmountInvested()+stockExchange.getTotalprice());
+		portfolio.setPortfolioWalletValue(portfolio.getPortfolioWalletValue()-stockExchange.getTotalprice());
 		this.portfolioRepository.save(portfolio);
 		
 		stockExchangeOutputDto.setPortfolio(portfolio);
@@ -115,6 +116,7 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 			commissionAmount = sellPrice*0.02;
 			Portfolio portfolio = this.portfolioRepository.findByUsername(stockExchangeInputDto.getUsername());
 			portfolio.setAmountEarned((int) (portfolio.getAmountEarned()+sellPrice-commissionAmount));
+			portfolio.setPortfolioWalletValue((int) (portfolio.getPortfolioWalletValue()+sellPrice-commissionAmount));//new
 			this.portfolioRepository.save(portfolio);
 			stockExchange.setUnitcount(stockExchange.getUnitcount()-Integer.valueOf(stockExchangeInputDto.getSellunitcount()));
 			if(stockExchange.getUnitcount()==0)
@@ -165,6 +167,7 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 			commissionAmount = sellPrice*0.02;
 			Portfolio portfolio = this.portfolioRepository.findByUsername(stockExchangeInputDto.getUsername());
 			portfolio.setAmountEarned((int) (portfolio.getAmountEarned()+sellPrice-commissionAmount));
+			portfolio.setPortfolioWalletValue((int) (portfolio.getPortfolioWalletValue()+sellPrice-commissionAmount));//new
 			this.portfolioRepository.save(portfolio);
 			stockExchange.setUnitcount(stockExchange.getUnitcount()-Integer.valueOf(stockExchangeInputDto.getSellunitcount()));
 			if(stockExchange.getUnitcount()==0)
