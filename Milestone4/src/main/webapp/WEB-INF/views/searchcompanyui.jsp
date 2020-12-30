@@ -46,6 +46,11 @@
     <div class="col-sm-8 text-left"> 
       <h1>Search Company</h1>
       <hr>
+      <c:choose>
+		    <c:when test="${empty companylist[0].code}">
+		        No companies to show.
+		    </c:when>
+		    <c:otherwise>
 		<div id="display">
 		<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
 		<table class="table" id="myTable">
@@ -93,6 +98,8 @@
 		  </tbody>
 		</table>
 	</div>
+      </c:otherwise>
+		</c:choose>
     </div>
     <div class="col-sm-2 sidenav">
     </div>

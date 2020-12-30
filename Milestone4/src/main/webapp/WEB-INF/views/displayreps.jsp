@@ -1,14 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%> 
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %> 
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core" %> 
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<jsp:include page="common.jsp"/>
+	<jsp:include page="common.jsp"/>
 </head>
 <body>
+
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="myNavbar">
@@ -37,18 +40,36 @@
       <p><a href="${pageContext.request.contextPath}/admin/listallrep">List all backoffice reps</a></p>
     </div>
     <div class="col-sm-8 text-left"> 
-      <h1>Admin Home</h1>
+      <h1>Listing all backoffice reps</h1>
       <hr>
-      
+      <div>
+		<table class="table" id="myTable">
+		  <thead class="thead-light">
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Name</th>
+		      <th scope="col">Password</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<c:forEach items="${userOutput}" var="user" varStatus="count">
+		  		<tr>
+			      <th scope="row">1</th>
+			      <td><c:out value="${user.username}"/></td>
+			      <td><c:out value="${user.password}"/></td>
+			    </tr>
+		  	</c:forEach>
+		  </tbody>
+		</table>
+	</div>
     </div>
     <div class="col-sm-2 sidenav">
     </div>
   </div>
 </div>
-<!--<core:if test="${param.saved != null}">
-	<i>This is the saved id = ${userOutput.username}</i>
-</core:if> -->
+
 <jsp:include page="footer.jsp"/>
+
 </body>
 <jsp:include page="bootstrapscripts.jsp"/>
 </html>

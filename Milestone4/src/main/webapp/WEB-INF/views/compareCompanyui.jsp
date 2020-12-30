@@ -46,7 +46,12 @@
     <div class="col-sm-8 text-left"> 
       <h1>Compare companies</h1>
       <hr>
-      <div>
+      <c:choose>
+		    <c:when test="${empty companydetail.code}">
+		        No companies to show.
+		    </c:when>
+		    <c:otherwise>
+	 <div>
 	   <div class="input-group form-group col-xs-3">
 	   		<input list="list1" name="companies" id="company1" placeholder="Select first company" class="form-control input-sm" >
 			  <datalist id="list1">
@@ -99,6 +104,8 @@
 		  </tbody>
 		</table>
 	</div>
+      </c:otherwise>
+		</c:choose>
     </div>
     <div class="col-sm-2 sidenav">
     </div>

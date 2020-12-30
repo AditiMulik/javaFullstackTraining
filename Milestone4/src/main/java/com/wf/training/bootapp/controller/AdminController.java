@@ -1,6 +1,7 @@
 package com.wf.training.bootapp.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.validation.Valid;
@@ -45,6 +46,15 @@ public class AdminController {
 			model.addAttribute("userOutput", userOutput);
 			System.out.println("Saved:"+userOutput.getUsername());
 			return "redirect:/admin/home?saved";
+		}
+		
+		@RequestMapping("/listallrep") 
+		public String listallrep(Model model){
+			System.out.println("Listing all reps "+"| ");
+			List<UsersOutputDto> userOutput =  this.service.listAllReps();
+			model.addAttribute("userOutput", userOutput);
+			System.out.println("Saved:"+userOutput.get(0).getUsername());
+			return "displayreps";
 		}
 		
 		@RequestMapping("/logout")

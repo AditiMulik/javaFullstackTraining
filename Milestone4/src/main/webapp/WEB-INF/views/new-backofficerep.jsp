@@ -34,7 +34,9 @@
 <div class="container-fluid text-center">    
   <div class="row content">
     <div class="col-sm-2 sidenav">
+      <p><span class="glyphicon glyphicon-menu-hamburger"></span>MENU</p>
       <p><a href="${pageContext.request.contextPath}/admin/addnewrepui">Add backoffice representative</a></p>
+      <p><a href="${pageContext.request.contextPath}/admin/listallrep">List all backoffice reps</a></p>
     </div>
     <div class="col-sm-8 text-left"> 
       <h1>Add New Backoffice Representative</h1>

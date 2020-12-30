@@ -46,43 +46,59 @@
     <div class="col-sm-8 text-left"> 
       <h1>Stock Exchange Commodity</h1>
       <hr>
+      <c:choose>
+		    <c:when test="${empty commoditylist[0].type}">
+		        No commodities to show.
+		    </c:when>
+		    <c:otherwise>
+		        
       <div>
 		<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
 		<table class="table" id="myTable">
-		  <thead class="thead-light">
-		    <tr>
-		      <th scope="col">#</th>
-		      <th scope="col">Type</th>
-		      <th scope="col">Price</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		  	<c:forEach items="${commoditylist}" var="commodities" varStatus="count">
-		  		<tr onclick='showDisplayDiv(this)' id="${commodities.type}+${commodities.price}">
-			      <th scope="row">1</th>
-			      <td><c:out value="${commodities.type}"/></td>
-			      <td><c:out value="${commodities.price}"/></td>
-			      <td>
-				      <button class="btn btn-default" type="submit">Select </button>
-			      </td>
-			    </tr>
-		  	</c:forEach>
-		  </tbody>
-		</table>
+				  <thead class="thead-light">
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">Type</th>
+				      <th scope="col">Price</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<c:forEach items="${commoditylist}" var="commodities" varStatus="count">
+				  		<tr onclick='showDisplayDiv(this)' id="${commodities.type}+${commodities.price}">
+					      <th scope="row">1</th>
+					      <td><c:out value="${commodities.type}"/></td>
+					      <td><c:out value="${commodities.price}"/></td>
+					      <td>
+					      <c:set var = "unitcount" scope = "request" value="${0}" />
+					      	<c:forEach items="${userItems}" var="items" varStatus="count">
+					      		<c:if test="${items.commodityType eq commodities.type}">					      		
+					      			<c:set var = "unitcount" scope = "request" value="${items.unitcount}" />
+					      		</c:if>
+					      	</c:forEach>
+						      <button class="btn btn-default" type="submit" onclick='trial(${commodities.price},${portfolioOutputDto.portfolioValue},${unitcount})'>Select </button>
+					     
+					      </td>
+					    </tr>
+				  	</c:forEach>
+				  </tbody>
+				</table>
+		
 	</div>
 	<div id="display" >
       <spring:form action="tradecommodity" method="post" modelAttribute="stockExchangeInputDto">
-      	<h2>Selected commodity to trade   : <spring:input path="commodityType" type="text" id="type" class="form-control"/></h2>
-     	<h3>Commodity price         : <p id="price"></p></h3>
+      	<h2>Selected commodity to trade   : <spring:input readonly="true" path="commodityType" type="text" id="type" class="form-control"/></h2>
+     	<h4>Commodity price         : <p id="price"></p></h4>
+      	<h4>Your unit count for the commodity        : ${unitcount}</h4>
+     	<h4>Portfolio wallet balance : ${portfolioOutputDto.portfolioValue}</h4>
 		<div id="displayBuy" class="form-group col-xs-4" style="display:none">
-			<div><label>Enter number of shares to buy</label></div>
+			<div><label>Enter number of units to buy</label></div>
 			<div>
 				<spring:input path="buyunitcount" type="text"  class="form-control" value="0"/>
 			</div>
 		</div>
 		<div class="col-xs-9"></div>
 		<div id="displaySell" class="form-group col-xs-4" style="display:none">
-			<div><label>Enter number of shares to sell</label></div>
+			<div><label>Enter number of units to sell</label></div>
 			<div>
 				<spring:input path="sellunitcount" type="text"  class="form-control" value="0"/>
 			</div>
@@ -92,10 +108,16 @@
 			<input type="submit" value="Trade" class="form-control"/>
 		</div>
 	</spring:form>
-	
-      	<button class="btn btn-default" type="submit" onclick="displayBuy()">Buy stocks</button>
-      	<button class="btn btn-default" type="submit" onclick="displaySell()">Sell stocks</button>
+		<c:if test="${portfolioOutputDto.portfolioValue>0}">		      	
+		  <button id="buycommodity" class="btn btn-default" type="submit" onclick="displayBuy()">Buy commodity</button>
+		</c:if>
+      	
+    	
+      		<button id="sellcommodity" class="btn btn-default" type="submit" onclick="displaySell()">Sell commodity</button>
+      	
       </div>
+      </c:otherwise>
+	</c:choose>
     </div>
     <div class="col-sm-2 sidenav">
     </div>
@@ -128,6 +150,16 @@ function displaySell(){
 	displaySell.style.display = "block";
 	displayBuy.style.display = "none";
 	saveForm.style.display = "block";
+}
+function trial(cvalue,pvalue,unitcount){
+	if(cvalue>pvalue){		
+		var buycommodity = document.getElementById("buycommodity");
+		buycommodity.style.display = "none";
+	}
+	if(unitcount<1){		
+		var sellcommodity = document.getElementById("sellcommodity");
+		sellcommodity.style.display = "none";
+	}
 }
 </script>
 </html>

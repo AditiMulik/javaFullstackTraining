@@ -56,7 +56,7 @@ public class StockExchangeServiceImpl implements StockExchangeService {
 	private StockExchangeOutputDto convertStockExchangeEntityToStockExchangeOutputDto(StockExchange stockExchange) {
 		StockExchangeOutputDto stockExchangeOutputDto = new StockExchangeOutputDto(stockExchange.getId(), 
 				stockExchange.getType(), stockExchange.getUnitprice().toString(), stockExchange.getTotalprice().toString(), 
-				stockExchange.getUnitcount().toString(), stockExchange.getCommodityType(), stockExchange.getCompanyCode(), 
+				stockExchange.getUnitcount(), stockExchange.getCommodityType(), stockExchange.getCompanyCode(), 
 				stockExchange.getUsername());
 		Portfolio portfolio = this.portfolioRepository.findByUsername(stockExchange.getUsername());
 		portfolio.setAmountInvested(portfolio.getAmountInvested()+stockExchange.getTotalprice());

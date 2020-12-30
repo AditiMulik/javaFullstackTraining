@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%> 
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %> 
 <!DOCTYPE html>
@@ -47,7 +48,9 @@
       <hr>
       <p>Current Portfolio amount: ${portfolioOutputDto.portfolioValue}</p>
       <button class="btn btn-default" type="submit" onclick="displayAdd()">Add amount</button>
-      <button class="btn btn-default" type="submit" onclick="displayWithdraw()">Withdraw amount</button>
+      <c:if test="${portfolioOutputDto.portfolioValue>0}">
+      	<button class="btn btn-default" type="submit" onclick="displayWithdraw()">Withdraw amount</button>
+      </c:if>
       <spring:form action="portfolioupdate" method="post" modelAttribute="portfolio">
 		<div id="displayAdd" class="form-group col-xs-4" style="display:none">
 			<div><spring:label path="additionamount">Enter amount to add</spring:label></div>

@@ -12,6 +12,7 @@ public interface UsersService {
 
 	UsersOutputDto addNewRep(@Valid UsersInputDto user, String role);
 	UsersOutputDto addNewInvestor(@Valid UsersInputDto user, String role);
+	List<UsersOutputDto> listAllReps();
 		
 	
 }

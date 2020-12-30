@@ -24,6 +24,7 @@ import com.wf.training.bootapp.dto.PortfolioReportOutput;
 import com.wf.training.bootapp.dto.StockExchangeInputDto;
 import com.wf.training.bootapp.dto.StockExchangeOutputDto;
 import com.wf.training.bootapp.model.CommodityDetails;
+import com.wf.training.bootapp.model.StockExchange;
 import com.wf.training.bootapp.service.CommodityService;
 import com.wf.training.bootapp.service.CompanyService;
 import com.wf.training.bootapp.service.EarningReportService;
@@ -120,6 +121,22 @@ public class InvestorController {
 			model.addAttribute("stockExchangeInputDto",stockExchangeInputDto);
 			PortfolioReportOutput portfolioReportOutput = this.portfolioReportService.fetchSinglePortfolioReport(principal.getName());
 			model.addAttribute("portfolioReportOutput",portfolioReportOutput);
+			PortfolioOutputDto portfolioOutputDto = this.portfolioService.fetchSinglePortfolio(principal.getName());
+			model.addAttribute("portfolioOutputDto",portfolioOutputDto);
+			
+			List<StockExchange> shareDetails = this.stockExchangeService.getAllForUser(principal.getName());
+			List<StockExchangeOutputDto> userItems= new ArrayList<StockExchangeOutputDto>();
+			StockExchangeOutputDto item = new StockExchangeOutputDto();
+			for(int i=0;i<shareDetails.size();i++)
+			{
+				if(shareDetails.get(i).getType().equals("Commodity")) {
+					item.setCommodityType(shareDetails.get(i).getCommodityType());
+					item.setUnitcount(shareDetails.get(i).getUnitcount());
+					userItems.add(item);
+				}
+					
+			}
+			model.addAttribute("userItems",userItems);
 			return "stockexchangecommodity";
 		}
 
@@ -132,6 +149,17 @@ public class InvestorController {
 			model.addAttribute("stockExchangeInputDto",stockExchangeInputDto);
 			PortfolioReportOutput portfolioReportOutput = this.portfolioReportService.fetchSinglePortfolioReport(principal.getName());
 			model.addAttribute("portfolioReportOutput",portfolioReportOutput);
+			PortfolioOutputDto portfolioOutputDto = this.portfolioService.fetchSinglePortfolio(principal.getName());
+			model.addAttribute("portfolioOutputDto",portfolioOutputDto);
+			
+			List<StockExchange> shareDetails = this.stockExchangeService.getAllForUser(principal.getName());
+			int userItems=0;
+			for(int i=0;i<shareDetails.size();i++)
+			{
+				if(shareDetails.get(i).getCompanyCode().equals(companyInputDto.getCode()))
+					userItems++;
+			}
+			model.addAttribute("userItems",userItems);
 			return "stockexchangecompany";
 		}
 		
