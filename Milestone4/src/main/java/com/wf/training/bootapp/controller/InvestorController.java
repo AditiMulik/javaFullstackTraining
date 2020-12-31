@@ -23,6 +23,8 @@ import com.wf.training.bootapp.dto.PortfolioOutputDto;
 import com.wf.training.bootapp.dto.PortfolioReportOutput;
 import com.wf.training.bootapp.dto.StockExchangeInputDto;
 import com.wf.training.bootapp.dto.StockExchangeOutputDto;
+import com.wf.training.bootapp.dto.UsersInputDto;
+import com.wf.training.bootapp.dto.UsersOutputDto;
 import com.wf.training.bootapp.model.CommodityDetails;
 import com.wf.training.bootapp.model.StockExchange;
 import com.wf.training.bootapp.service.CommodityService;
@@ -31,6 +33,7 @@ import com.wf.training.bootapp.service.EarningReportService;
 import com.wf.training.bootapp.service.PortfolioReportService;
 import com.wf.training.bootapp.service.PortfolioService;
 import com.wf.training.bootapp.service.StockExchangeService;
+import com.wf.training.bootapp.service.UsersService;
 
 
 
@@ -55,6 +58,9 @@ public class InvestorController {
 		
 		@Autowired
 		private StockExchangeService stockExchangeService;
+		
+		@Autowired
+		private UsersService usersService;
 	
 		@RequestMapping("/home")
 		public String home(Principal principal, Model model) {
@@ -63,6 +69,26 @@ public class InvestorController {
 			
 			PortfolioReportOutput portfolioReportOutput = this.portfolioReportService.fetchSinglePortfolioReport(principal.getName());
 			model.addAttribute("portfolioReportOutput",portfolioReportOutput);
+			
+			UsersInputDto user = new UsersInputDto();
+			model.addAttribute("user",user);
+
+			model.addAttribute("currencyPref",this.usersService.getCurrencyPref(principal.getName()));
+			return "investor";
+		}
+		
+		@RequestMapping("/saveCurrencyPref")
+		public String updateCurrencyPreference(@ModelAttribute("user") UsersInputDto user, Model model ,Principal principal) {
+			user.setUsername(principal.getName());
+			this.usersService.updateCurrencyPref(user);
+			model.addAttribute("currencyPref",this.usersService.getCurrencyPref(principal.getName()));
+			System.out.println("\nSaved currency pref"+user.getCurrencyPreference());
+			PortfolioOutputDto portfolioOutputDto = this.portfolioService.fetchSinglePortfolio(principal.getName());
+			model.addAttribute("portfolioOutputDto",portfolioOutputDto);
+			
+			PortfolioReportOutput portfolioReportOutput = this.portfolioReportService.fetchSinglePortfolioReport(principal.getName());
+			model.addAttribute("portfolioReportOutput",portfolioReportOutput);
+			
 			return "investor";
 		}
 		

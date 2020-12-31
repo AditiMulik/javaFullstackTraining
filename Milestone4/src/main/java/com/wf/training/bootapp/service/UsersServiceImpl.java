@@ -19,6 +19,8 @@ public class UsersServiceImpl implements UsersService {
 
 	@Autowired UsersRepository repository;
 	
+	@Autowired PortfolioService portfolioService;
+	
 	// utility method
 	private UsersOutputDto convertEntityToOutputDto(Users user) {
 		UsersOutputDto userOutputDto = new UsersOutputDto();
@@ -46,11 +48,30 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public UsersOutputDto addNewInvestor(@Valid UsersInputDto userInput, String role) {
 		Users user = this.covertInputDtoToEntity(userInput,role);
+		user.setCurrencyPreference("USD");
 		Users newUser = this.repository.save(user);
 		UsersOutputDto userOutputDto = this.convertEntityToOutputDto(newUser);
+		userOutputDto.setCurrencyPreference("USD");
 		return userOutputDto;
 	}
+	
+	@Override
+	public UsersOutputDto updateCurrencyPref(@Valid UsersInputDto userInput) {
+		Users user = this.repository.findByUsername(userInput.getUsername());
+		this.portfolioService.editPortfolioCurrencyPref(userInput.getUsername(), user.getCurrencyPreference(), userInput.getCurrencyPreference());
+		user.setCurrencyPreference(userInput.getCurrencyPreference());
+		Users newUser = this.repository.save(user);
+		UsersOutputDto userOutputDto = this.convertEntityToOutputDto(newUser);
 
+		return userOutputDto;
+	}
+	
+	@Override
+	public String getCurrencyPref(String name) {
+		Users user = this.repository.findByUsername(name);
+		return user.getCurrencyPreference();
+	}
+	
 	@Override
 	public List<UsersOutputDto> listAllReps() {
 		List<Users> users = this.repository.findByRole("BACK");

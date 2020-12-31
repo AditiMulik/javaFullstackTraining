@@ -47,7 +47,7 @@
       <h1>Compare companies</h1>
       <hr>
       <c:choose>
-		    <c:when test="${empty companydetail.code}">
+		    <c:when test="${empty companylist[0].code}">
 		        No companies to show.
 		    </c:when>
 		    <c:otherwise>

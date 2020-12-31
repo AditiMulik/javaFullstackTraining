@@ -10,4 +10,5 @@ public interface PortfolioService {
 	public PortfolioOutputDto fetchSinglePortfolio(String username);
 	public PortfolioOutputDto addPortfolio(PortfolioInputDto portfolioInputDto,String username);
 	public PortfolioOutputDto editPortfolio(PortfolioInputDto portfolioInputDto,String username);
+	String editPortfolioCurrencyPref(String username,String oldCurrency, String newCurrency);
 }

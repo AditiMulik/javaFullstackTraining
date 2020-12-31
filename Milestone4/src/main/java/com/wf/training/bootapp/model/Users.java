@@ -16,7 +16,7 @@ public class Users {
 	
 	private String password;
 	
-	private Boolean enabled;
+	private String currencyPreference;
 	
 	private String role;
 	public String getRole() {
@@ -44,11 +44,11 @@ public class Users {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Boolean getEnabled() {
-		return enabled;
+	public String getCurrencyPreference() {
+		return currencyPreference;
 	}
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setCurrencyPreference(String currencyPreference) {
+		this.currencyPreference = currencyPreference;
 	}
 	
 }

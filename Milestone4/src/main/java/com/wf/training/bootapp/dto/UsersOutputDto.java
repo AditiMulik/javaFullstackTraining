@@ -1,12 +1,19 @@
 package com.wf.training.bootapp.dto;
 
-import javax.validation.constraints.NotBlank;
 
 public class UsersOutputDto {
 	private String username;
 	
 	private String password;
 	
+	private String currencyPreference;
+	
+	public String getCurrencyPreference() {
+		return currencyPreference;
+	}
+	public void setCurrencyPreference(String currencyPreference) {
+		this.currencyPreference = currencyPreference;
+	}
 	public String getUsername() {
 		return username;
 	}

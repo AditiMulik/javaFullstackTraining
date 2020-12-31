@@ -9,6 +9,8 @@ public class UsersInputDto {
 	@NotBlank(message = "Password is mandatory!")
 	private String password;
 	
+	private String currencyPreference;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -20,5 +22,11 @@ public class UsersInputDto {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getCurrencyPreference() {
+		return currencyPreference;
+	}
+	public void setCurrencyPreference(String currencyPreference) {
+		this.currencyPreference = currencyPreference;
 	}
 }
