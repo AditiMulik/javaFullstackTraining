@@ -13,7 +13,7 @@ public class StockExchangeOutputDto {
 	
 	private String totalprice;
 	
-	private String unitcount;
+	private Integer unitcount;
 	
 	private String commodityType;
 	
@@ -55,11 +55,11 @@ public class StockExchangeOutputDto {
 		this.totalprice = totalprice;
 	}
 
-	public String getUnitcount() {
+	public Integer getUnitcount() {
 		return unitcount;
 	}
 
-	public void setUnitcount(String unitcount) {
+	public void setUnitcount(Integer unitcount) {
 		this.unitcount = unitcount;
 	}
 
@@ -87,7 +87,7 @@ public class StockExchangeOutputDto {
 		this.username = username;
 	}
 
-	public StockExchangeOutputDto(Long id, String type, String unitprice, String totalprice, String unitcount,
+	public StockExchangeOutputDto(Long id, String type, String unitprice, String totalprice, Integer unitcount,
 			String commodityType, String companyCode, String username) {
 		super();
 		this.id = id;

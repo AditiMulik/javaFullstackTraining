@@ -34,6 +34,9 @@ anychart.onDocumentLoad(function () {
       	<li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span>
       		<security:authentication property="principal.username"/>
       	</a></li>
+      	<li class="active"><a href="#">
+      		Current portfolio value   : ${portfolioReportOutput.portfolioReportValue}
+      	</a></li>
         <li><span class="glyphicon glyphicon-log-out"></span>
         	<spring:form action="${pageContext.request.contextPath}/logout" method="POST">
 				<input type="submit" value="Logout" />
@@ -54,7 +57,6 @@ anychart.onDocumentLoad(function () {
 	  <p><a href="${pageContext.request.contextPath}/investor/stockexchange">Stock exchange</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/portfolioupdateui">Update portfolio</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/generateportfolioreport">Generate portfolio report</a></p>
-	  <p><a href="${pageContext.request.contextPath}/investor/home">Set Currency Preference</a></p>
       </div>
     <div class="col-sm-8 text-left">
       <h1>Earning trend</h1>

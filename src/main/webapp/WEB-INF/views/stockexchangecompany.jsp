@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%> 
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %> 
 <!DOCTYPE html>
@@ -17,6 +18,9 @@
       <ul class="nav navbar-nav navbar-right">
       	<li class="active"><a href="#"><span class="glyphicon glyphicon-user"></span>
       		<security:authentication property="principal.username"/>
+      	</a></li>
+      	<li class="active"><a href="#">
+      		Current portfolio value   : ${portfolioReportOutput.portfolioReportValue}
       	</a></li>
         <li><span class="glyphicon glyphicon-log-out"></span>
         	<spring:form action="${pageContext.request.contextPath}/logout" method="POST">
@@ -38,22 +42,23 @@
 	  <p><a href="${pageContext.request.contextPath}/investor/stockexchange">Stock exchange</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/portfolioupdateui">Update portfolio</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/generateportfolioreport">Generate portfolio report</a></p>
-	  <p><a href="${pageContext.request.contextPath}/investor/home">Set Currency Preference</a></p>
-      </div>
+	  </div>
     <div class="col-sm-8 text-left"> 
       <h1>Stock Exchange Company</h1>
       <hr>
       <div id="display" >
        <spring:form action="tradecompany" method="post" modelAttribute="stockExchangeInputDto">
-      	<h2>Selected company to trade   : <spring:input path="companyCode" type="text" id="type" class="form-control" value="${companydetail.code}"/></h2>
-     	<h3>Company available sharecount: ${companydetail.sharecount}</h3>
-      	<h3>Company share price         : ${companydetail.shareprice}</h3>
+      	<h2>Selected company to trade   : <spring:input readonly="true" path="companyCode" type="text" id="type" class="form-control" value="${companydetail.code}"/></h2>
+     	<h4>Company available sharecount: ${companydetail.sharecount}</h4>
+      	<h4>Company share price         : ${companydetail.shareprice}</h4>
+      	<h4>Your share count for the company        : ${userItems}</h4>
+     	<h4>Portfolio wallet amount : ${portfolioOutputDto.portfolioValue}</h4>
       	
 		<div id="displayBuy" class="form-group col-xs-4" style="display:none">
 			<div><label>Enter number of shares to buy</label></div>
-			<div>
-				<spring:input path="buyunitcount" type="text"  class="form-control" value="0"/>
-			</div>
+				<div>
+					<spring:input path="buyunitcount" type="text"  class="form-control" value="0"/>
+				</div>
 		</div>
 		<div class="col-xs-9"></div>
 		<div id="displaySell" class="form-group col-xs-4" style="display:none">
@@ -67,16 +72,20 @@
 			<input type="submit" value="Trade" class="form-control"/>
 		</div>
 	</spring:form>
-	
-      	<button class="btn btn-default" type="submit" onclick="displayBuy()">Buy stocks</button>
-      	<button class="btn btn-default" type="submit" onclick="displaySell()">Sell stocks</button>
+	<c:if test="${companydetail.sharecount>0}">	
+		<c:if test="${portfolioOutputDto.portfolioValue>companydetail.shareprice}">		      	
+		   <button class="btn btn-default" type="submit" onclick="displayBuy()">Buy stocks</button>
+		</c:if>	
+    </c:if>
+    	<c:if test="${userItems>0}">
+      		<button class="btn btn-default" type="submit" onclick="displaySell()">Sell stocks</button>
+      	</c:if>
       </div>
     </div>
     <div class="col-sm-2 sidenav">
     </div>
   </div>
 </div>
-
 <jsp:include page="footer.jsp"/>
 </body>
 <jsp:include page="bootstrapscripts.jsp"/>

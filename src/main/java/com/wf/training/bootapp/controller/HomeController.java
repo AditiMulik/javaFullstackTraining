@@ -68,9 +68,6 @@ public class HomeController {
 	
 	@RequestMapping("/access-denied")
 	public String accessDenied() {
-		// add business logic
-		
-		// respond back with a view page name
 		return "errorPage";
 	}
 	
@@ -83,10 +80,10 @@ public class HomeController {
 	}
 	
 	@PostMapping("/newuser")
-	public String registerNewUser(@Valid @ModelAttribute("user") UsersInputDto user, BindingResult result, Model model) {
+	public String registerNewUser(@Valid @ModelAttribute("user") UsersInputDto user, BindingResult result, Model model) throws Exception {
 		System.out.println("POST DATA : " + user.getUsername() + " | " + user.getPassword());
 		if(result.hasErrors()) {
-			return "newuser";
+			throw new Exception("Exception while adding new user. Please review data submitted.");
 		}
 		UsersOutputDto userOutput =  this.service.addNewInvestor(user,"INVESTOR");
 		model.addAttribute("userOutput", userOutput);

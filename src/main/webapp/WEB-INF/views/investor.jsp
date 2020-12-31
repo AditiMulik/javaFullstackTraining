@@ -41,22 +41,26 @@
 	  <p><a href="${pageContext.request.contextPath}/investor/stockexchange">Stock exchange</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/portfolioupdateui">Update portfolio</a></p>
 	  <p><a href="${pageContext.request.contextPath}/investor/generateportfolioreport">Generate portfolio report</a></p>
-	  <p><a href="${pageContext.request.contextPath}/investor/home">Set Currency Preference</a></p>
       </div>
     <div class="col-sm-8 text-left"> 
       <h1>Investor Home</h1>
       <hr>
       <div>
-			<label for="currencytype"><h3>Currency selection:</h3></label>
-			  <select id="currency">
-			    <option value="INR">INR</option>
+      		<spring:form action="${pageContext.request.contextPath}/investor/saveCurrencyPref" method="POST" modelAttribute="user">	
+			<spring:label path="currencyPreference"><h3>Currency selection:</h3></spring:label>
+			<spring:input list="currencyPreference" path="currencyPreference"/>
+			<datalist id="currencyPreference">
+			  	<option value="INR">INR</option>
 			    <option value="USD">USD</option>
-			  </select>
-			  <button class="btn btn-default" type="submit" onclick="displayresult()">Select</button>
+			  </datalist>
+			  <input type="submit" value="Select" onclick="displayresult()"/>
+			  </spring:form>
+			  <!--  <button class="btn btn-default" type="submit" onclick="displayresult()">Select</button>-->
 		</div>
 		<div id="result"></div>
 		<div>
-			<p>Current portfolio wallet value   : ${portfolioOutputDto.portfolioValue} </p>
+			<p>Current portfolio wallet value   : ${currencyPref} </p>
+			<p>Current currency preference   : ${portfolioOutputDto.portfolioValue} </p>
 			<p>Amount earned till date  : ${portfolioOutputDto.amountEarned} </p>
 			<p>Amount invested till date: ${portfolioOutputDto.amountInvested} </p>
 		</div>
@@ -72,8 +76,8 @@
 <jsp:include page="bootstrapscripts.jsp"/>
 <script>
 function displayresult(){
-   var result=document.getElementById("result");
-   result.innerHTML="Currency Preference set to: "+document.getElementById("currency").value;
+   document.getElementById("currencyPreference").value=document.getElementById("currencytype").value;
+   alert(document.getElementById("currencyPreference").value);
 }
 </script>
 </html>

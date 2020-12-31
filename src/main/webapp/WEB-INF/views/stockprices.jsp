@@ -41,6 +41,13 @@
     <div class="col-sm-8 text-left"> 
       <h1>Add new stock prices</h1>
       <hr>
+      <c:choose>
+		    <c:when test="${empty companylist[0].code}">
+		        No companies to show.
+		        Please add new company <a href="${pageContext.request.contextPath}/backofficerep/addnewcompanyui">  here</a>.
+		       
+		    </c:when>
+		    <c:otherwise>
       <spring:form action="addstockprices" method="post" modelAttribute="stockprices">
 			<div class="form-group col-xs-4">
 				<spring:label path="companyCode">Enter companyCode</spring:label>
@@ -57,12 +64,12 @@
 			<br/>
 			<div class="col-xs-9"></div>
 			<div class="form-group col-xs-4">
-				<label path="stockprice">Current stockprice</label>
+				<label id="changecurrentcurrency">Current stockprice</label>
 				<div>
 					<input id="currentstockprice" list="companyprice" type="text"  class="form-control" readonly onclick="myFunction()"/>
 					<datalist id="companyprice">
 					  	<c:forEach items="${companylist}" var="companies" varStatus="count">
-					  	<option value="${companies.shareprice}" id="${companies.code}">
+					  	<option value="${companies.shareprice}|${companies.currency}" id="${companies.code}">
 					    </c:forEach>
 					  </datalist>
 				</div>
@@ -97,7 +104,9 @@
 				<input type="submit" value="Save" class="form-control"/>
 			</div>
 		</spring:form>
-    </div>
+    
+      </c:otherwise>
+		</c:choose></div>
     <div class="col-sm-2 sidenav">
     </div>
   </div>
@@ -109,12 +118,12 @@
 <script>
 function myFunction() {
   var x = document.getElementById('company').value;
-  var y = document.getElementById(x).value;
-  document.getElementById('currentstockprice').value = y;
+  var y = document.getElementById(x).value.split("|");
+  document.getElementById('changecurrentcurrency').innerHTML = "Current stockprice ("+y[1]+")";
+  document.getElementById('currentstockprice').value = y[0];
   var z = document.getElementById(x+'usd').value;
   document.getElementById('currentprices').value = z;
   document.getElementById('currentpricesdummy').value = z;
-  
 }
 </script>
 </html>
