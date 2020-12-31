@@ -11,7 +11,7 @@ node{
 		bat(/"${mvnHome}\bin\mvn" clean package/)
 	}
 	
-	stage('Containerize"){
+	stage('Containerize'){
 		bat(/"${dockerHome}\Docker\resources\bin\docker" build -t auto-trial1:latest ./)
 	}
 }
