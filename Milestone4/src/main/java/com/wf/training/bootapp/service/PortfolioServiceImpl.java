@@ -77,14 +77,14 @@ public class PortfolioServiceImpl implements PortfolioService {
 		
 		Portfolio testportfolio = this.repository.findByUsername(username);
 		if(oldCurrency.equals("INR") && newCurrency.equals("USD")) {
-			testportfolio.setAmountEarned((int) (testportfolio.getAmountEarned()*0.014));
-			testportfolio.setAmountInvested((int) (testportfolio.getAmountInvested()*0.014));
-			testportfolio.setPortfolioWalletValue((int) (testportfolio.getPortfolioWalletValue()*0.014));
+			testportfolio.setAmountEarned((int) (testportfolio.getAmountEarned()/72));
+			testportfolio.setAmountInvested((int) (testportfolio.getAmountInvested()/72));
+			testportfolio.setPortfolioWalletValue((int) (testportfolio.getPortfolioWalletValue()/72));
 		}
 		else if(oldCurrency.equals("USD") && newCurrency.equals("INR")) {
-			testportfolio.setAmountEarned((int) (testportfolio.getAmountEarned()*73.03));
-			testportfolio.setAmountInvested((int) (testportfolio.getAmountInvested()*73.03));
-			testportfolio.setPortfolioWalletValue((int) (testportfolio.getPortfolioWalletValue()*73.03));
+			testportfolio.setAmountEarned((int) (testportfolio.getAmountEarned()*72));
+			testportfolio.setAmountInvested((int) (testportfolio.getAmountInvested()*72));
+			testportfolio.setPortfolioWalletValue((int) (testportfolio.getPortfolioWalletValue()*72));
 		}
 		this.repository.save(testportfolio);
 		System.out.println("\nupdateCurrencyPref"+testportfolio.getPortfolioWalletValue());
