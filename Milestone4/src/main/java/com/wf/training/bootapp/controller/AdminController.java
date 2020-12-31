@@ -37,10 +37,10 @@ public class AdminController {
 		}
 		
 		@RequestMapping("/addnewrep") 
-		public String addNewRep(@Valid @ModelAttribute("user") UsersInputDto user, BindingResult result,Model model){
+		public String addNewRep(@Valid @ModelAttribute("user") UsersInputDto user, BindingResult result,Model model) throws Exception{
 			System.out.println("New rep "+"| "+user.getUsername()+" | "+user.getPassword());
 			if(result.hasErrors()) {
-				return "new-backofficerep";
+				throw new Exception("Exception while adding new backoffice rep. Please review data submitted.");
 			}
 			UsersOutputDto userOutput =  this.service.addNewRep(user,"BACK");
 			model.addAttribute("userOutput", userOutput);

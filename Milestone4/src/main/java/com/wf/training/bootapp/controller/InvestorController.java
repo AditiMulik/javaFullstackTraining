@@ -78,7 +78,10 @@ public class InvestorController {
 		}
 		
 		@RequestMapping("/saveCurrencyPref")
-		public String updateCurrencyPreference(@ModelAttribute("user") UsersInputDto user, Model model ,Principal principal) {
+		public String updateCurrencyPreference(@Valid @ModelAttribute("user") UsersInputDto user, BindingResult result, Model model ,Principal principal) throws Exception {
+			if(result.hasErrors()) {
+				throw new Exception("Exception while updating currency preference. Please review data submitted.");
+			}
 			user.setUsername(principal.getName());
 			this.usersService.updateCurrencyPref(user);
 			model.addAttribute("currencyPref",this.usersService.getCurrencyPref(principal.getName()));
@@ -104,7 +107,10 @@ public class InvestorController {
 
 		
 		@RequestMapping("/searchcompanyui")
-		public String searchCompanyUI(@ModelAttribute("company") CompanyInputDto companies, Model model ,Principal principal) {
+		public String searchCompanyUI(@Valid @ModelAttribute("company") CompanyInputDto companies, BindingResult result, Model model ,Principal principal) throws Exception {
+			if(result.hasErrors()) {
+				throw new Exception("Exception while searching company. Please review data submitted.");
+			}
 			System.out.println("searchCompanyui");
 			List<CompanyOutputDto> companylist = new ArrayList<CompanyOutputDto>();
 			companylist = this.companyService.fetchAllCompanies();
@@ -127,7 +133,10 @@ public class InvestorController {
 
 		
 		@RequestMapping("/stockexchange")
-		public String stockExchange(@ModelAttribute("company") CompanyInputDto companyInputDto, Model model,Principal principal) {
+		public String stockExchange(@Valid @ModelAttribute("company") CompanyInputDto companyInputDto, BindingResult result, Model model,Principal principal) throws Exception {
+			if(result.hasErrors()) {
+				throw new Exception("Exception while fetching trading data. Please review data submitted.");
+			}
 			System.out.println("stockExchange"+companyInputDto.getCode());
 			model.addAttribute("companydetail",companyInputDto);
 			PortfolioReportOutput portfolioReportOutput = this.portfolioReportService.fetchSinglePortfolioReport(principal.getName());
@@ -168,7 +177,10 @@ public class InvestorController {
 
 		
 		@RequestMapping("/stockexchangecompany")
-		public String stockexchangecompany(@ModelAttribute("company") CompanyInputDto companyInputDto, Model model,Principal principal) {
+		public String stockexchangecompany(@Valid @ModelAttribute("company") CompanyInputDto companyInputDto, BindingResult result, Model model,Principal principal) throws Exception {
+			if(result.hasErrors()) {
+				throw new Exception("Exception while fetching trading company data. Please review data submitted.");
+			}
 			System.out.println("stockexchangecompany"+companyInputDto.getCode());
 			model.addAttribute("companydetail",companyInputDto);
 			StockExchangeInputDto stockExchangeInputDto = new StockExchangeInputDto();
@@ -190,7 +202,10 @@ public class InvestorController {
 		}
 		
 		@RequestMapping("/tradecommodity")
-		public String tradecommodity(@ModelAttribute("stockExchangeInputDto") StockExchangeInputDto stockExchangeInputDto, Principal principal, Model model) {
+		public String tradecommodity(@Valid @ModelAttribute("stockExchangeInputDto") StockExchangeInputDto stockExchangeInputDto, BindingResult result, Principal principal, Model model) throws Exception {
+			if(result.hasErrors()) {
+				throw new Exception("Exception while trading commodity. Please review data submitted.");
+			}
 			stockExchangeInputDto.setUsername(principal.getName());
 			System.out.println("stockexchangecommodity"+stockExchangeInputDto.getCommodityType()+stockExchangeInputDto.getBuyunitcount()
 			+stockExchangeInputDto.getSellunitcount()+stockExchangeInputDto.getCompanyCode()+stockExchangeInputDto.getUsername());
@@ -202,7 +217,10 @@ public class InvestorController {
 		}
 		
 		@RequestMapping("/tradecompany")
-		public String tradecompany(@ModelAttribute("stockExchangeInputDto") StockExchangeInputDto stockExchangeInputDto, Principal principal, Model model) {
+		public String tradecompany(@Valid @ModelAttribute("stockExchangeInputDto") StockExchangeInputDto stockExchangeInputDto, BindingResult result, Principal principal, Model model) throws Exception {
+			if(result.hasErrors()) {
+				throw new Exception("Exception while trading company. Please review data submitted.");
+			}
 			stockExchangeInputDto.setUsername(principal.getName());
 			System.out.println("stockexchangecommodity"+stockExchangeInputDto.getCommodityType()+stockExchangeInputDto.getBuyunitcount()
 			+stockExchangeInputDto.getSellunitcount()+stockExchangeInputDto.getCompanyCode()+stockExchangeInputDto.getUsername());
@@ -227,9 +245,9 @@ public class InvestorController {
 
 		
 		@RequestMapping("/portfolioupdate")
-		public String portfolioUpdate(@Valid @ModelAttribute("portfolio") PortfolioInputDto portfolioInputDto, BindingResult result,Principal principal, Model model) {
+		public String portfolioUpdate(@Valid @ModelAttribute("portfolio") PortfolioInputDto portfolioInputDto, BindingResult result,Principal principal, Model model) throws Exception {
 			if(result.hasErrors()) {
-				return "portfolioupdate";
+				throw new Exception("Exception while updating portfolio. Please review data submitted.");
 			}
 			PortfolioOutputDto portfolioOutputDto =  this.portfolioService.editPortfolio(portfolioInputDto, principal.getName());
 			PortfolioReportOutput portfolioReportOutput = this.portfolioReportService.fetchSinglePortfolioReport(principal.getName());

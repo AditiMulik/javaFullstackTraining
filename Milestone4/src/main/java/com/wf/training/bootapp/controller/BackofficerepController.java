@@ -66,10 +66,10 @@ public class BackofficerepController {
 		}
 		
 		@RequestMapping("/addnewcompany")
-		public String addNewCompany(@Valid @ModelAttribute("company") CompanyInputDto companyInputDto, BindingResult result,Model model){
+		public String addNewCompany(@Valid @ModelAttribute("company") CompanyInputDto companyInputDto, BindingResult result,Model model) throws Exception{
 			System.out.println("New company");
 			if(result.hasErrors()) {
-				return "new-company";
+				throw new Exception("Exception while adding new company. Please review data submitted.");
 			}
 			CompanyOutputDto companyOutputDto =  this.companyService.addCompany(companyInputDto);
 			model.addAttribute("companyOutputDto", companyOutputDto);
@@ -92,10 +92,10 @@ public class BackofficerepController {
 		}
 		
 		@RequestMapping("/addstockprices")
-		public String addStockPrices(@Valid @ModelAttribute("stockprices") StockPricesInputDto stockprices, BindingResult result, Model model){
+		public String addStockPrices(@Valid @ModelAttribute("stockprices") StockPricesInputDto stockprices, BindingResult result, Model model) throws Exception{
 			System.out.println("Stock prices added");
 			if(result.hasErrors()) {
-				return "stockprices";
+				throw new Exception("Exception while adding new stockprices. Please review data submitted.");
 			}
 			stockprices.setStockdate(LocalDate.now());
 			stockprices.setStocktime(LocalTime.now());
@@ -115,10 +115,10 @@ public class BackofficerepController {
 		}
 		
 		@RequestMapping("/addcommodity")
-		public String addCommodity(@Valid @ModelAttribute("commodity") CommodityInputDto commodityInputDto, BindingResult result, Model model){
+		public String addCommodity(@Valid @ModelAttribute("commodity") CommodityInputDto commodityInputDto, BindingResult result, Model model) throws Exception{
 			System.out.println("Commodity added");
 			if(result.hasErrors()) {
-				return "new-commodity";
+				throw new Exception("Exception while adding new commodity. Please review data submitted.");
 			}
 			CommodityOutputDto commodityOutputDto =  this.commodityService.addCommodity(commodityInputDto);
 			model.addAttribute("commodityOutputDto", commodityOutputDto);
